@@ -20,14 +20,14 @@ module "rg1" {
   resourceGroupLocation = var.resourceLocation
 }
 
-module "rg2" {
+/*module "rg2" {
   source = "../modules/resourceGroup"
   resourceGroupName = var.rg2Name
   resourceGroupLocation = var.resourceLocation
 }
 
 
-/*module "vnet1" {
+module "vnet1" {
     source = "../modules/vnet"
     vnetLocation = var.resourceLocation
 }
