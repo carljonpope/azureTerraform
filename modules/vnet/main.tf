@@ -1,6 +1,6 @@
 resource "azurerm_virtual_network" "example" {
   name                = "virtualNetworkTest"
-  location            = var.resourceLocation
+  location            = var.vnetLocation
   resource_group_name = "networking"
   address_space       = ["10.1.0.0/16"]
 

@@ -14,9 +14,23 @@ provider "azurerm" {
   features {}
 }
 
-#module "vnet1" {
-#    source = "../modules/vnet"
-#}
+module "rg1" {
+  source = "../modules/resourceGroup"
+  resourceGroupName = var.rg1Name
+  resourceGroupLocation = var.resourceLocation
+}
+
+module "rg2" {
+  source = "../modules/resourceGroup"
+  resourceGroupName = var.rg2Name
+  resourceGroupLocation = var.resourceLocation
+}
+
+
+/*module "vnet1" {
+    source = "../modules/vnet"
+    vnetLocation = var.resourceLocation
+}
 
 resource "azurerm_virtual_network" "example" {
   name                = "virtualNetworkTest"
@@ -33,4 +47,4 @@ resource "azurerm_virtual_network" "example" {
   tags = {
     environment = "Test"
   }
-}
+}*/

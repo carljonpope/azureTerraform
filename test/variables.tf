@@ -3,3 +3,10 @@ variable "resourceLocation" {
   description   = "Location of the resources"
 }
 
+variable "rg1Name" {
+
+}
+
+variable "rg2Name" {
+  
+}

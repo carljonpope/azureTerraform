@@ -1,6 +1,6 @@
-variable "resourceLocation" {
+variable "vnetLocation" {
 
-  description   = "Location of the resources"
+  description   = "Location of the vnet"
   #default ="ukwest"
 
 }
