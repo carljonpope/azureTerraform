@@ -1,3 +1,4 @@
 resourceLocation = "uksouth"
-rg1Name = "TestRG1"
+rg1Name = "Database"
 rg2Name = "TestRG2"
+rg3Name
