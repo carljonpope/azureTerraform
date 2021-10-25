@@ -1,30 +1,11 @@
-terraform {
-
-  required_version = ">=0.12"
-  
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "~>2.0"
-    }
-  }
-}
-
-provider "azurerm" {
-  features {}
-}
-
-module "vnet2" {
-    source = "../modules/vnet"
-    vnetLocation = var.resourceLocation
-}
-
-
-/*module "rg1" {
+module "rg1" {
   source = "../modules/resourceGroup"
-  resourceGroupName = var.rg1Name
+  resourceGroupName = local.rgName
   resourceGroupLocation = var.resourceLocation
 }
+
+
+
 
 /*module "rg2" {
   source = "../modules/resourceGroup"
