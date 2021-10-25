@@ -14,7 +14,13 @@ provider "azurerm" {
   features {}
 }
 
-module "rg1" {
+module "vnet2" {
+    source = "../modules/vnet"
+    vnetLocation = var.resourceLocation
+}
+
+
+/*module "rg1" {
   source = "../modules/resourceGroup"
   resourceGroupName = var.rg1Name
   resourceGroupLocation = var.resourceLocation

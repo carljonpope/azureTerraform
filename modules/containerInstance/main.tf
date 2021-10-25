@@ -1,29 +1,30 @@
 resource "azurerm_container_group" "example" {
   name                = "example-continst"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = "uksouth"
+  resource_group_name = "compute"
   ip_address_type     = "public"
-  dns_name_label      = "aci-label"
+  dns_name_label      = "cjpcontainertest01"
   os_type             = "Linux"
 
   container {
     name   = "hello-world"
-    image  = "microsoft/aci-helloworld:latest"
+    image  = "mcr.microsoft.com/azuredocs/aci-helloworld"#"microsoft/aci-helloworld:latest"
     cpu    = "0.5"
     memory = "1.5"
 
     ports {
-      port     = 443
+      port     = 80
       protocol = "TCP"
     }
   }
 
-  container {
+  /*container {
     name   = "sidecar"
-    image  = "microsoft/aci-tutorial-sidecar"
+    image  = "mcr.microsoft.com/azuredocs/aci-tutorial-sidecar"
     cpu    = "0.5"
     memory = "1.5"
   }
+  */
 
   tags = {
     environment = "testing"
