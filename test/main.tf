@@ -4,6 +4,7 @@ module "rg1" {
   resourceGroupLocation = var.resourceLocation
 }
 
+/**/
 
 
 
