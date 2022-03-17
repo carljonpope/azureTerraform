@@ -7,8 +7,8 @@ resource "azurerm_container_group" "example" {
   os_type             = "Linux"
 
   container {
-    name   = "hello-world"
-    image  = "mcr.microsoft.com/azuredocs/aci-helloworld"#"microsoft/aci-helloworld:latest"
+    name   = "csharpjenkins"
+    image  = "jenkins/jenkins:lts"
     cpu    = "0.5"
     memory = "1.5"
 
@@ -16,16 +16,18 @@ resource "azurerm_container_group" "example" {
       port     = 80
       protocol = "TCP"
     }
-  }
 
-  /*container {
-    name   = "sidecar"
-    image  = "mcr.microsoft.com/azuredocs/aci-tutorial-sidecar"
-    cpu    = "0.5"
-    memory = "1.5"
-  }
-  */
+    ports {
+      port     = 8080
+      protocol = "TCP"
+    }
 
+    ports {
+      port     = 50000
+      protocol = "TCP"
+    }    
+    
+  }
   tags = {
     environment = "testing"
   }

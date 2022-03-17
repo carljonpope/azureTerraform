@@ -15,8 +15,8 @@ data "azurerm_virtual_network" "vnet1" {
   resource_group_name = "networking"
 }
 
-data "azurerm_subnet" "subnet1" {
-  name                    = "subnet1"
+data "azurerm_subnet" "subnet4" {
+  name                    = "subnet4"
   resource_group_name     = "networking"
   virtual_network_name    = data.azurerm_virtual_network.vnet1.name
 }
@@ -77,7 +77,7 @@ resource "azurerm_network_interface" "cjptest_vm01_nic" {
 
     ip_configuration {
         name                          = "cjptest_nicConfig01"
-        subnet_id                     = data.azurerm_subnet.subnet1.id
+        subnet_id                     = data.azurerm_subnet.subnet4.id
         private_ip_address_allocation = "Dynamic"
         public_ip_address_id          = azurerm_public_ip.cjptest_ip01.id
     }

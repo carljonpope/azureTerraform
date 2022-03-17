@@ -1,28 +1,11 @@
-variable "resourceLocation" {
- # default       = "uksouth"
-  description   = "Location of the resources"
-}
-
-variable "rg1Name" {
+variable "resourceGroupLocation" {
+  default = "uksouth"
 
 }
 
-variable "rg2Name" {
-  
-}
 
-variable "orgName" {
-    
-}
 
-variable "prjName" {
-
-}
-
-variable "envName" {
-
-}
-
-variable "resourceName" {
+variable "myArray" {
+  default = ["a", "b", "c"]
 
 }
