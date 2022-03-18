@@ -127,6 +127,13 @@
         "sku": "cis-rhel8-l2",
         "version": "latest"
       },
+      
+      "plan": {
+        "name": "cis-rhel8-l1",
+        "publisher": "center-for-internet-security-inc",
+        "product": "cis-rhel-8-l1"
+      },
+
       "managementPort": 22,
       "extensionSettings": {
         "master": {
