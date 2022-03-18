@@ -123,8 +123,8 @@
     "ubuntuSettings": {
       "imageReference": {
         "publisher": "center-for-internet-security-inc",
-        "offer": "cis-rhel-8-l2",
-        "sku": "cis-rhel8-l2",
+        "offer": "cis-rhel-8-l1",
+        "sku": "cis-rhel8-l1",
         "version": "latest"
       },
       
