@@ -183,6 +183,13 @@
           ]
         }
       },
+
+      "plan": {
+        "name": "cis-rhel8-l2",
+        "publisher": "center-for-internet-security-inc",
+        "product": "cis-rhel-8-l2"
+      },
+
       "resources": [
         {
           "type": "Microsoft.Compute/virtualMachines/extensions",
