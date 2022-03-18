@@ -118,21 +118,23 @@
         "version": "latest"
         */
 
-
-
-    "ubuntuSettings": {
+    /*"ubuntuSettings": {
       "imageReference": {
         "publisher": "center-for-internet-security-inc",
         "offer": "cis-rhel-8-l1",
         "sku": "cis-rhel8-l1",
         "version": "latest"
       },
-      
-      "plan": {
-        "name": "cis-rhel8-l1",
-        "publisher": "center-for-internet-security-inc",
-        "product": "cis-rhel-8-l1"
+      */
+
+      "ubuntuSettings": {
+      "imageReference": {
+        "publisher": "RedHat",
+        "offer": "RedHatEnterpriseLinux81-ARM",
+        "sku": "RedHatEnterpriseLinux81-ARM",
+        "version": "latest"
       },
+
 
       "managementPort": 22,
       "extensionSettings": {
