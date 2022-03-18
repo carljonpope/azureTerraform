@@ -130,8 +130,8 @@
       "ubuntuSettings": {
       "imageReference": {
         "publisher": "RedHat",
-        "offer": "RedHatEnterpriseLinux81-ARM",
-        "sku": "RedHatEnterpriseLinux81-ARM",
+        "offer": "RHEL",
+        "sku": "8.1",
         "version": "latest"
       },
 
