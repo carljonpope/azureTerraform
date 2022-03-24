@@ -103,7 +103,7 @@ fi
 
 CLUSTER_NAME="elasticsearch"
 NAMESPACE_PREFIX=""
-ES_VERSION="6.4.1"
+ES_VERSION="7.1.1"
 ES_HEAP=0
 INSTALL_XPACK=0
 BASIC_SECURITY=0
@@ -274,9 +274,9 @@ done
 # fi
 
 yum install -y rpmdevtools
-esVersion=$(rpm -qi elasticsearch | awk -F': ' '/Version/ {print $2}')
+#esVersion=$(rpm -qi elasticsearch | awk -F': ' '/Version/ {print $2}')
 okVersion=7.1.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 
 if [[ $? == 11 ]] || [[ $? == 0 ]];
 then
@@ -291,7 +291,7 @@ fi
 #fi
 
 okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 11 ]] || [[ $? == 0 ]];
 then 
   UNICAST_HOST_PORT=""
@@ -396,53 +396,24 @@ install_java()
 # Install Elasticsearch
 install_es()
 {
-    local OS_SUFFIX=""
-    #if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
-    #  OS_SUFFIX="-amd64"
-    #fi
+  
 
-okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
-  OS_SUFFIX="-amd64"
-fi
-
-    local PACKAGE="elasticsearch-${ES_VERSION}${OS_SUFFIX}.deb"
-    local ALGORITHM="512"
-    local SHASUM="$PACKAGE.sha$ALGORITHM"
-    local DOWNLOAD_URL="https://artifacts.elastic.co/downloads/elasticsearch/$PACKAGE?ultron=msft&gambit=azure"
-    local SHASUM_URL="https://artifacts.elastic.co/downloads/elasticsearch/$SHASUM?ultron=msft&gambit=azure"
-
-    log "[install_es] installing Elasticsearch $ES_VERSION"
-    wget --retry-connrefused --waitretry=1 -q "$SHASUM_URL" -O $SHASUM
-    local EXIT_CODE=$?
-    if [[ $EXIT_CODE -ne 0 ]]; then
-        log "[install_es] error downloading Elasticsearch $ES_VERSION sha$ALGORITHM checksum"
-        exit $EXIT_CODE
-    fi
-    log "[install_es] download location - $DOWNLOAD_URL"
-    wget --retry-connrefused --waitretry=1 -q "$DOWNLOAD_URL" -O $PACKAGE
-    EXIT_CODE=$?
-    if [[ $EXIT_CODE -ne 0 ]]; then
-        log "[install_es] error downloading Elasticsearch $ES_VERSION"
-        exit $EXIT_CODE
-    fi
-    log "[install_es] downloaded Elasticsearch $ES_VERSION"
-
-    # earlier sha files do not contain the package name. add it
-    grep -q "$PACKAGE" $SHASUM || sed -i "s/.*/&  $PACKAGE/" $SHASUM
-
-    shasum -a $ALGORITHM -c $SHASUM
-    EXIT_CODE=$?
+    yum install -y perl-Digest-SHA
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.1.1-linux-x86_64.tar.gz
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-7.1.1-linux-x86_64.tar.gz.sha512
+    shasum -a 512 -c elasticsearch-7.1.1-linux-x86_64.tar.gz.sha512 
+      EXIT_CODE=$?
     if [[ $EXIT_CODE -ne 0 ]]; then
         log "[install_es] error validating checksum for Elasticsearch $ES_VERSION"
         exit $EXIT_CODE
     fi
+    
+    tar -xzf elasticsearch-7.1.1-linux-x86_64.tar.gz
+    cd elasticsearch-7.1.1/ 
 
-    #dpkg -i $PACKAGE
-    yum install $PACKAGE
-    log "[install_es] installed Elasticsearch $ES_VERSION"
+
+
+
 }
 
 ## Plugins
@@ -470,7 +441,7 @@ install_additional_plugins()
     #fi
 
 okVersion=6.7.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 11 ]] || [[ $? == 0 ]];
 then 
   SKIP_PLUGINS+=" ingest-geoip ingest-user-agent"
@@ -659,7 +630,7 @@ apply_security_settings()
     #fi
 
 okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 11 ]] || [[ $? == 0 ]];
 then 
   XPACK_SECURITY_PATH="_security"
@@ -703,7 +674,7 @@ fi
     #fi 
 
 okVersion=7.8.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 11 ]] || [[ $? == 0 ]];
 then 
   KIBANA_USER="kibana_system"
@@ -968,7 +939,7 @@ configure_elasticsearch_yaml()
     #fi
 
     okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 12 ]] || [[ $? == 0 ]];
 then 
       log "[configure_elasticsearch_yaml] update configuration with discovery.zen.ping.unicast.hosts set to $UNICAST_HOSTS"
@@ -1102,7 +1073,7 @@ then
           #fi
 
     okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 12 ]] || [[ $? == 0 ]];
 then 
   echo -e "xpack.security.authc.realms.native1:"
@@ -1133,7 +1104,7 @@ then
           #fi
 
 okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
+rpmdev-vercmp $ES_VERSION $okVersion > /dev/null
 if [[ $? == 12 ]] || [[ $? == 0 ]];
 then 
    echo -e "xpack.security.authc.realms.saml_aad:"
