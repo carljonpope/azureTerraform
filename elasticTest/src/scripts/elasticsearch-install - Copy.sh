@@ -269,31 +269,12 @@ done
 #########################
 
 # supports security features with a basic license
-# if [[ $(dpkg --compare-versions "$ES_VERSION" "ge" "7.1.0"; echo $?) -eq 0 || ($(dpkg --compare-versions "$ES_VERSION" "ge" "6.8.0"; echo $?) -eq 0 && $(dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; echo $?) -eq 0) ]]; then
-#  BASIC_SECURITY=1
-# fi
-
-yum install -y rpmdevtools
-esVersion=$(rpm -qi elasticsearch | awk -F': ' '/Version/ {print $2}')
-okVersion=7.1.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then
+if [[ $(dpkg --compare-versions "$ES_VERSION" "ge" "7.1.0"; echo $?) -eq 0 || ($(dpkg --compare-versions "$ES_VERSION" "ge" "6.8.0"; echo $?) -eq 0 && $(dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; echo $?) -eq 0) ]]; then
   BASIC_SECURITY=1
-
 fi
 
-
 # zen2 should emit the ports from hosts
-#if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
-#  UNICAST_HOST_PORT=""
-#fi
-
-okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
+if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
   UNICAST_HOST_PORT=""
 fi
 
@@ -397,17 +378,9 @@ install_java()
 install_es()
 {
     local OS_SUFFIX=""
-    #if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
-    #  OS_SUFFIX="-amd64"
-    #fi
-
-okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
-  OS_SUFFIX="-amd64"
-fi
-
+    if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
+      OS_SUFFIX="-amd64"
+    fi
     local PACKAGE="elasticsearch-${ES_VERSION}${OS_SUFFIX}.deb"
     local ALGORITHM="512"
     local SHASUM="$PACKAGE.sha$ALGORITHM"
@@ -440,8 +413,7 @@ fi
         exit $EXIT_CODE
     fi
 
-    #dpkg -i $PACKAGE
-    yum install $PACKAGE
+    dpkg -i $PACKAGE
     log "[install_es] installed Elasticsearch $ES_VERSION"
 }
 
@@ -464,17 +436,10 @@ install_additional_plugins()
 {
     SKIP_PLUGINS="license shield watcher marvel-agent graph cloud-azure x-pack repository-azure"
 
-    #if dpkg --compare-versions "$ES_VERSION" "ge" "6.7.0"; then
+    if dpkg --compare-versions "$ES_VERSION" "ge" "6.7.0"; then
       # plugins are bundled in the distribution
-    #  SKIP_PLUGINS+=" ingest-geoip ingest-user-agent"
-    #fi
-
-okVersion=6.7.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
-  SKIP_PLUGINS+=" ingest-geoip ingest-user-agent"
-fi
+      SKIP_PLUGINS+=" ingest-geoip ingest-user-agent"
+    fi
 
     log "[install_additional_plugins] Installing additional plugins"
     for PLUGIN in $(echo $INSTALL_ADDITIONAL_PLUGINS | tr ";" "\n")
@@ -652,20 +617,11 @@ apply_security_settings()
     log "[apply_security_settings] start updating roles and users"
 
     local XPACK_SECURITY_PATH
-    #if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
-    #  XPACK_SECURITY_PATH="_security"
-    #else
-    #  XPACK_SECURITY_PATH="_xpack/security"
-    #fi
-
-okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
-  XPACK_SECURITY_PATH="_security"
-else
-  XPACK_SECURITY_PATH="_xpack/security"
-fi
+    if dpkg --compare-versions "$ES_VERSION" "ge" "7.0.0"; then
+      XPACK_SECURITY_PATH="_security"
+    else
+      XPACK_SECURITY_PATH="_xpack/security"
+    fi
 
     local XPACK_USER_ENDPOINT="$PROTOCOL://localhost:9200/$XPACK_SECURITY_PATH/user"
     local XPACK_ROLE_ENDPOINT="$PROTOCOL://localhost:9200/$XPACK_SECURITY_PATH/role"
@@ -698,16 +654,9 @@ fi
     local ESCAPED_USER_KIBANA_PWD=$(escape_pwd $USER_KIBANA_PWD)
     local KIBANA_JSON=$(printf '{"password":"%s"}\n' $ESCAPED_USER_KIBANA_PWD)
     local KIBANA_USER="kibana"
-    #if dpkg --compare-versions "$ES_VERSION" "ge" "7.8.0"; then
-    #  KIBANA_USER="kibana_system"
-    #fi 
-
-okVersion=7.8.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 11 ]] || [[ $? == 0 ]];
-then 
-  KIBANA_USER="kibana_system"
-fi
+    if dpkg --compare-versions "$ES_VERSION" "ge" "7.8.0"; then
+      KIBANA_USER="kibana_system"
+    fi 
 
     echo $KIBANA_JSON | curl_ignore_409 -XPUT -u "elastic:$USER_ADMIN_PWD" "$XPACK_USER_ENDPOINT/$KIBANA_USER/_password" -d @-
     if [[ $? != 0 ]];  then
@@ -957,20 +906,7 @@ configure_elasticsearch_yaml()
     echo "path.data: $DATAPATH_CONFIG" >> $ES_CONF
 
     # Configure discovery
-    #if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
-    #  log "[configure_elasticsearch_yaml] update configuration with discovery.zen.ping.unicast.hosts set to $UNICAST_HOSTS"
-    #  echo "discovery.zen.ping.unicast.hosts: $UNICAST_HOSTS" >> $ES_CONF
-    #  echo "discovery.zen.minimum_master_nodes: $MINIMUM_MASTER_NODES" >> $ES_CONF
-    #else
-    #  log "[configure_elasticsearch_yaml] update configuration with discovery.seed_hosts and cluster.initial_master_nodes set to $UNICAST_HOSTS"
-    #  echo "discovery.seed_hosts: $UNICAST_HOSTS" >> $ES_CONF
-    #  echo "cluster.initial_master_nodes: $UNICAST_HOSTS" >> $ES_CONF
-    #fi
-
-    okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 12 ]] || [[ $? == 0 ]];
-then 
+    if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
       log "[configure_elasticsearch_yaml] update configuration with discovery.zen.ping.unicast.hosts set to $UNICAST_HOSTS"
       echo "discovery.zen.ping.unicast.hosts: $UNICAST_HOSTS" >> $ES_CONF
       echo "discovery.zen.minimum_master_nodes: $MINIMUM_MASTER_NODES" >> $ES_CONF
@@ -1094,23 +1030,12 @@ then
       {
           echo -e ""
           # include the realm type in the setting name in 7.x +
-          #if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
-          #  echo -e "xpack.security.authc.realms.native1:"
-          #  echo -e "  type: native"
-          #else
-          #  echo -e "xpack.security.authc.realms.native.native1:"
-          #fi
-
-    okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 12 ]] || [[ $? == 0 ]];
-then 
-  echo -e "xpack.security.authc.realms.native1:"
+          if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
+            echo -e "xpack.security.authc.realms.native1:"
             echo -e "  type: native"
           else
             echo -e "xpack.security.authc.realms.native.native1:"
           fi
-
           echo -e "  order: 0"
           echo -e ""
       } >> $ES_CONF
@@ -1125,23 +1050,12 @@ then
       {
           echo -e ""
           # include the realm type in the setting name in 7.x +
-          #if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
-          #  echo -e "xpack.security.authc.realms.saml_aad:"
-          #  echo -e "  type: saml"
-          #else
-          #  echo -e "xpack.security.authc.realms.saml.saml_aad:"
-          #fi
-
-okVersion=7.0.0
-rpmdev-vercmp $esVersion $okVersion > /dev/null
-if [[ $? == 12 ]] || [[ $? == 0 ]];
-then 
-   echo -e "xpack.security.authc.realms.saml_aad:"
-    echo -e "  type: saml"
-else
-    echo -e "xpack.security.authc.realms.saml.saml_aad:"
-fi
-
+          if dpkg --compare-versions "$ES_VERSION" "lt" "7.0.0"; then
+            echo -e "xpack.security.authc.realms.saml_aad:"
+            echo -e "  type: saml"
+          else
+            echo -e "xpack.security.authc.realms.saml.saml_aad:"
+          fi
           echo -e "  order: 2"
           echo -e "  idp.metadata.path: /etc/elasticsearch/saml/metadata.xml"
           echo -e "  idp.entity_id: \"$IDP_ENTITY_ID\""
@@ -1201,42 +1115,38 @@ install_apt_package()
   local PACKAGE=$1
   if [ $(dpkg-query -W -f='${Status}' $PACKAGE 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
     log "[install_$PACKAGE] installing $PACKAGE"
-    #(apt-get -yq install $PACKAGE || (sleep 15; apt-get -yq install $PACKAGE))
-    (yum install -y -q $PACKAGE || (sleep 15; yum install -y -q $PACKAGE))
+    (apt-get -yq install $PACKAGE || (sleep 15; apt-get -yq install $PACKAGE))
     log "[install_$PACKAGE] installed $PACKAGE"
   fi
 }
 
-#install_unzip()
-#{
-#    install_apt_package unzip
-#}
-yum install -y unzip
+install_unzip()
+{
+    install_apt_package unzip
+}
 
-#install_jq()
-#{
-#    install_apt_package jq
-#}
-yum install -y jq
+install_jq()
+{
+    install_apt_package jq
+}
 
-#install_yamllint()
-#{
-#    install_apt_package yamllint
-#}
-python3 -m pip install --user yamllint
+install_yamllint()
+{
+    install_apt_package yamllint
+}
 
-#install_ntp()
-#{
-#    install_apt_package ntp
-#    install_apt_package ntpdate
-#
-#    if systemctl -q is-active ntp.service; then
-#      systemctl stop ntp.service
-#    fi
+install_ntp()
+{
+    install_apt_package ntp
+    install_apt_package ntpdate
 
-#    ntpdate pool.ntp.org
-#    systemctl start ntp.service
-#}
+    if systemctl -q is-active ntp.service; then
+      systemctl stop ntp.service
+    fi
+
+    ntpdate pool.ntp.org
+    systemctl start ntp.service
+}
 
 start_systemd()
 {
@@ -1250,25 +1160,21 @@ port_forward()
     log "[port_forward] setting up port forwarding from 9201 to 9200"
     #redirects 9201 > 9200 locally
     #this to overcome a limitation in ARM where to vm 2 loadbalancers cannot route on the same backend ports
-    #iptables -t nat -I PREROUTING -p tcp --dport 9201 -j REDIRECT --to-ports 9200
-    #iptables -t nat -I OUTPUT -p tcp -o lo --dport 9201 -j REDIRECT --to-ports 9200
+    iptables -t nat -I PREROUTING -p tcp --dport 9201 -j REDIRECT --to-ports 9200
+    iptables -t nat -I OUTPUT -p tcp -o lo --dport 9201 -j REDIRECT --to-ports 9200
 
-        #install iptables-persistent to restore configuration after reboot
-    #log "[port_forward] installing iptables-persistent"
-    #(apt-get -yq install iptables-persistent || (sleep 15; apt-get -yq install iptables-persistent))
-
+    #install iptables-persistent to restore configuration after reboot
+    log "[port_forward] installing iptables-persistent"
+    (apt-get -yq install iptables-persistent || (sleep 15; apt-get -yq install iptables-persistent))
 
     # persist iptables changes
-    #service netfilter-persistent save
-    #service netfilter-persistent start
+    service netfilter-persistent save
+    service netfilter-persistent start
     # add netfilter-persistent to startup before elasticsearch
-    #update-rc.d netfilter-persistent defaults 90 15
+    update-rc.d netfilter-persistent defaults 90 15
 
-    #log "[port_forward] installed iptables-persistent"
-    #log "[port_forward] port forwarding configured"
-
-    firewall-cmd --add-forward-port=port=9201:proto=tcp:toport=9200
-    firewall-cmd --runtime-to-permanent
+    log "[port_forward] installed iptables-persistent"
+    log "[port_forward] port forwarding configured"
 }
 
 #########################
@@ -1295,9 +1201,9 @@ fi
 
 format_data_disks
 
-#log "[apt-get] updating apt-get"
-#(apt-get -y update || (sleep 15; apt-get -y update)) > /dev/null
-#log "[apt-get] updated apt-get"
+log "[apt-get] updating apt-get"
+(apt-get -y update || (sleep 15; apt-get -y update)) > /dev/null
+log "[apt-get] updated apt-get"
 
 install_ntp
 
