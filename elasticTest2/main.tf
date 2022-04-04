@@ -26,7 +26,7 @@ resource "azurerm_template_deployment" "terraform-arm" {
         
         "samlServiceProviderUri"=              ""
         
-        #"esHeapSize"=              0
+        "esHeapSize"=              "200"
         
         "loadBalancerType"=              "internal"
         
