@@ -5,7 +5,6 @@
     "_artifactsLocation": {
       "type": "string",
       "defaultValue": "https://raw.githubusercontent.com/elastic/azure-marketplace/master/src/",
-      /* "defaultValue": "./src",*/
       "metadata": {
         "description": "The base URI where artifacts required by this template are located, including a trailing '/'"
       }
@@ -735,7 +734,7 @@
     },
     "vmDataDiskCount": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 64,
       "minValue": 0,
       "metadata": {
         "description": "Number of disks to attach to each data node in RAID 0 setup. If the number of disks selected is more than can be attached to the data node VM size, the maximum number of disks that can be attached will be used. If 1 disk is selected, it is not RAIDed. If 0 disks are selected, the temporary disk will be used to store Elasticsearch data. IMPORTANT: The temporary disk is ephemeral in nature so be sure you know the trade-offs when choosing 0 disks."
@@ -763,7 +762,7 @@
     },
     "vmDataNodeCount": {
       "type": "int",
-      "defaultValue": 1,
+      "defaultValue": 3,
       "minValue": 1,
       "metadata": {
         "description": "Number of Elasticsearch data nodes"

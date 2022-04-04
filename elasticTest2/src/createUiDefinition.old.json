@@ -184,7 +184,7 @@
                 "name": "vmDataNodeCount",
                 "type": "Microsoft.Common.DropDown",
                 "label": "Number of data nodes",
-                "defaultValue": "3",
+                "defaultValue": "1",
                 "toolTip": "Specify the number of data nodes for this cluster. When not using dedicated master nodes, it is strongly recommended to have a minimum 3 data nodes in order to avoid split brain scenarios.",
                 "constraints": {
                   "allowedValues": [
@@ -287,7 +287,7 @@
                 "constraints": {
                   "allowedSizes": [
                     "Standard_A1_v2",
-                    /*"Standard_A2_v2",
+                    "Standard_A2_v2",
                     "Standard_A4_v2",
                     "Standard_A8_v2",
                     "Standard_A2m_v2",
@@ -402,7 +402,7 @@
                     "Standard_M64",
                     "Standard_M64m",
                     "Standard_M128",
-                    "Standard_M128m" */
+                    "Standard_M128m"
                   ]
                 },
                 "osPlatform": "Linux",
@@ -412,7 +412,7 @@
                 "name": "dataNodesAreMasterEligible",
                 "type": "Microsoft.Common.OptionsGroup",
                 "label": "Data nodes are master eligible",
-                "defaultValue": "No",
+                "defaultValue": "yes",
                 "toolTip": "Allow data nodes to be master eligible, setting this to Yes will no longer deploy the 3 dedicated master nodes",
                 "constraints": {
                   "allowedValues": [
@@ -451,7 +451,7 @@
                 "type": "Microsoft.Common.DropDown",
                 "label": "Size of each managed disk",
                 "visible": "[greater(steps('nodesStep').dataNodesDisks.vmDataDiskCount, 0)]",
-                "defaultValue": "32GiB", //"1TiB",
+                "defaultValue": "32GiB",
                 "toolTip": "The size of each data disk to attach to each data node",
                 "constraints": {
                   "allowedValues": [
@@ -459,7 +459,7 @@
                       "label": "32GiB",
                       "value": "32GiB"
                     },
-                    /*{
+                    {
                       "label": "64GiB",
                       "value": "64GiB"
                     },
@@ -498,7 +498,7 @@
                     {
                       "label": "32TiB",
                       "value": "32TiB"
-                    } */
+                    }
                   ]
                 }
               },
@@ -546,7 +546,7 @@
                 "constraints": {
                   "allowedSizes": [
                     "Standard_A1_v2",
-                    /*"Standard_A2_v2",
+                    "Standard_A2_v2",
                     "Standard_A4_v2",
                     "Standard_A8_v2",
                     "Standard_A2m_v2",
@@ -661,7 +661,7 @@
                     "Standard_M64",
                     "Standard_M64m",
                     "Standard_M128",
-                    "Standard_M128m" */
+                    "Standard_M128m"
                   ]
                 },
                 "osPlatform": "Linux",
@@ -762,7 +762,7 @@
                 "constraints": {
                   "allowedSizes": [
                     "Standard_A1_v2",
-                   /* "Standard_A2_v2",
+                    "Standard_A2_v2",
                     "Standard_A4_v2",
                     "Standard_A8_v2",
                     "Standard_A2m_v2",
@@ -877,7 +877,7 @@
                     "Standard_M64",
                     "Standard_M64m",
                     "Standard_M128",
-                    "Standard_M128m" */
+                    "Standard_M128m"
                   ]
                 },
                 "osPlatform": "Linux",
@@ -905,7 +905,7 @@
                 "name": "kibana",
                 "type": "Microsoft.Common.OptionsGroup",
                 "label": "Install Kibana?",
-                "defaultValue": "Yes",
+                "defaultValue": "No",
                 "toolTip": "Yes, to provision a single Kibana instance.",
                 "constraints": {
                   "allowedValues": [
@@ -934,7 +934,7 @@
                 "constraints": {
                   "allowedSizes": [
                     "Standard_A2_v2",
-                  /*  "Standard_A4_v2",
+                    "Standard_A4_v2",
                     "Standard_A8_v2",
                     "Standard_A2m_v2",
                     "Standard_A4m_v2",
@@ -1048,7 +1048,7 @@
                     "Standard_M64",
                     "Standard_M64m",
                     "Standard_M128",
-                    "Standard_M128m" */
+                    "Standard_M128m"
                   ]
                 },
                 "osPlatform": "Linux",
@@ -1149,7 +1149,7 @@
                 "constraints": {
                   "allowedSizes": [
                     "Standard_A1_v2",
-                   /* "Standard_A2_v2",
+                    "Standard_A2_v2",
                     "Standard_A4_v2",
                     "Standard_A8_v2",
                     "Standard_A2m_v2",
@@ -1264,7 +1264,7 @@
                     "Standard_M64",
                     "Standard_M64m",
                     "Standard_M128",
-                    "Standard_M128m" */
+                    "Standard_M128m"
                   ]
                 },
                 "osPlatform": "Linux",
