@@ -1,5 +1,5 @@
 resource "azurerm_template_deployment" "terraform-arm" {
-  name                = "terraform-arm-01"
+  name                = "terraform-arm-02"
   resource_group_name = "compute"
 
   template_body = file("src/mainTemplate.json")

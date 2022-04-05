@@ -1,4 +1,4 @@
-resource "azurerm_template_deployment" "terraform-arm" {
+resource "azurerm_template_deployment" "terraform-arm-02" {
   name                = "terraform-arm-01"
   resource_group_name = "compute"
 
