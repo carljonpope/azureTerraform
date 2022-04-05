@@ -1,12 +1,12 @@
-resource "azurerm_template_deployment" "terraform-arm-06" {
-  name                = "terraform-arm-06"
+resource "azurerm_template_deployment" "terraform-arm-10" {
+  name                = "terraform-arm-10"
   resource_group_name = "compute"
 
   template_body = file("src/mainTemplate.json")
 
   parameters = {
 
-      "esVersion"=              "6.8.14"
+      "esVersion"=              "7.4.2"
         
         "esClusterName"=              "test"
         
@@ -26,7 +26,7 @@ resource "azurerm_template_deployment" "terraform-arm-06" {
         
         "samlServiceProviderUri"=              ""
         
-        #"esHeapSize"=              "200"
+        "esHeapSize"=              "1500"
         
         "loadBalancerType"=              "internal"
         
