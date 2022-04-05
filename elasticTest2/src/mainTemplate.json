@@ -1321,7 +1321,7 @@
       "installPlugins": "[parameters('xpackPlugins')]",
       "installAdditionalPlugins": "[parameters('esAdditionalPlugins')]",
       "yamlConfiguration": "[parameters('esAdditionalYaml')]",
-      "heapSize": "[int(parameters('esHeapSize'))]",
+      "heapSize": "[parameters('esHeapSize')]",
       "httpCertBlob": "[parameters('esHttpCertBlob')]",
       "httpCertPassword": "[parameters('esHttpCertPassword')]",
       "httpCaCertBlob": "[parameters('esHttpCaCertBlob')]",
