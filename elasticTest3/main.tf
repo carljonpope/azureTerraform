@@ -1,12 +1,12 @@
-resource "azurerm_template_deployment" "terraform-arm-11" {
-  name                = "terraform-arm-11"
+resource "azurerm_template_deployment" "terraform-arm-10" {
+  name                = "terraform-arm-10"
   resource_group_name = "compute"
 
   template_body = file("src/mainTemplate.json")
 
   parameters = {
 
-      "esVersion"=              "8.1.1"
+      "esVersion"=              "7.4.2"
         
         "esClusterName"=              "test"
         
