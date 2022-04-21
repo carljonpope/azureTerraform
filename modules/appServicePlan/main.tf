@@ -1,18 +1,21 @@
-resource "azurerm_app_service_plan" "example" {
-  name                = var.aspName
-  location            = var.aspLocation
-  resource_group_name = var.rgName
-  kind                = "Linux"
-  reserved            = true
+resource "azurerm_service_plan" "app_service_plan" {
+  name                = var.name
+  location            = var.location
+  resource_group_name = var.resourcegroupname
+  os_type             = var.os_type
+  sku_name            = var.sku_name
 
 
-  sku {
-    tier = "PremiumV3"
-    size = "P1v3"
-  }
 }
 
 
 output "aspIdOutput" {
       value = azurerm_app_service_plan.example.id
     }
+
+
+  /*sku {
+    tier = "PremiumV3"
+    size = "P1v3"
+  }
+  */

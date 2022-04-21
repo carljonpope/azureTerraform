@@ -1,7 +1,7 @@
 output "rgNameOut" {
-    value = azurerm_resource_group.example.name
+    value = azurerm_resource_group.resource_group.name
 }
 
 output "rgLocationOut" {
-    value = azurerm_resource_group.example.location
+    value = azurerm_resource_group.resource_group.location
 }

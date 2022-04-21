@@ -1,6 +1,6 @@
-resource "azurerm_resource_group" "example" {
-  name     = var.rgName #var.resourceGroupName #format("%s-%s-%s-%s", var.orgName, var.prjName, var.envName, var.resName)
-  location = var.rgLocation
+resource "azurerm_resource_group" "resource_group" {
+  name     = var.resource_group_name #var.resourceGroupName #format("%s-%s-%s-%s", var.orgName, var.prjName, var.envName, var.resName)
+  location = var.location
  
  
  /* timeouts {

@@ -1,7 +1,7 @@
-variable "rgName" {
+variable "resource_group_name" {
 
 }
 
-variable "rgLocation" {
+variable "location" {
 
 }

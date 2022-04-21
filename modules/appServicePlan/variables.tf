@@ -1,11 +1,19 @@
-variable "aspName" {
+variable "name" {
 
 }
 
-variable "rgName" {
+variable "resource_group_name" {
 
 }
 
-variable "aspLocation" {
+variable "location" {
 
+}
+
+variable "os_type" {
+
+}
+
+variable "sku_name" {
+    
 }
