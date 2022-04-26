@@ -21,6 +21,7 @@ variable "tags" {
     
 }
 
+# Autoscale setting
 variable "content" {
     description = "The type of content in the resource group, e.g application name, or network resources"
 }
@@ -127,4 +128,102 @@ variable "scale_in_value" {
 variable "scale_in_cooldown" {
     default     = "PT1M"
     description = "The amount of time to wait since the last scaling action before this action occurs. Must be between 1 minute and 1 week and formatted as a ISO 8601 string."
+}
+
+# App Service
+
+variable "as_client_affinity_enabled" {
+    description = "Should Client Affinity be enabled?"
+}
+
+variable "as_client_certificate_enabled" {
+    description = "Should Client Certificates be enabled?"
+}
+
+variable "as_enabled" {
+    description = "Should the Linux Web App be enabled? Defaults to true."
+}
+
+variable "as_https_only" {
+    description = "Should the Linux Web App require HTTPS connections."
+}
+
+variable "as_app_settings" {
+    description = "A map of key-value pairs of App Settings."
+}
+
+variable "as_auth_settings_enabled" {
+    description = "Should the Authentication / Authorization feature be enabled for the Linux Web App?"
+}
+
+variable "as_connection_string_name" {
+    description = "The name of the Connection String."
+}
+
+variable "as_connection_string_type" {
+    description = "Type of database. Possible values include: MySQL, SQLServer, SQLAzure, Custom, NotificationHub, ServiceBus, EventHub, APIHub, DocDb, RedisCache, and PostgreSQL."
+}
+
+variable "as_connection_string_value" {
+    description = "The connection string value."
+}
+
+variable "as_identity_type" {
+    description = "Specifies the type of Managed Service Identity that should be configured on this Linux Web App. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
+}
+
+variable "as_site_config_always_on" {
+  description = "If this Linux Web App is Always On enabled. Defaults to false."
+}
+
+variable "as_app_stack_dotnet_version" {
+      description = "The version of .Net to use. Possible values include 3.1, 5.0, and 6.0."
+}
+
+variable "as_http_logs_retention_days" {
+  description = "The retention period in days. A value of 0 means no retention."
+}
+
+variable "as_http_logs_retention_mb" {
+  description = "The maximum size in megabytes that log files can use."
+}
+
+variable "as_http_logs_request_tracing" {
+  description = "Should failed request tracing be enabled."
+}
+
+variable "as_https_logs_detailed_error_messages" {
+  description = "Should detailed error messages be enabled."
+}
+
+variable "as_site_config_always_on" {
+    description = "If this Linux Web App is Always On enabled. Defaults to false."
+}
+
+variable "as_app_stack_dotnet_version" {
+    description = "The version of .Net to use. Possible values include 3.1, 5.0, and 6.0."
+}
+
+variable "as_site_config_managed_pipeline_mode" {
+    description = "Managed pipeline mode. Possible values include: Integrated, Classic."
+}
+
+variable "as_site_config_ftps_state" {
+        description = "The State of FTP / FTPS service. Possible values include: AllAllowed, FtpsOnly, Disabled."
+}
+
+variable "as_site_config_http2_enabled" {
+        description = "Should HTTP2 be enabled?"
+}
+
+variable "as_site_config_websockets_enabled" {
+        description = "Should Web Sockets be enabled. Defaults to false."
+}
+
+variable "as_site_config_remote_debugging" {
+        description = "Should Remote Debugging be enabled. Defaults to false."
+}
+
+variable "as_site_config_minimum_tls_version" {
+        description = "The configures the minimum version of TLS required for SSL requests. Possible values include: 1.0, 1.1, and 1.2. Defaults to 1.2."
 }
