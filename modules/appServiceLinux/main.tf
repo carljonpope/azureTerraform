@@ -15,7 +15,6 @@ resource "azurerm_linux_web_app" "app_service" {
     ftps_state            = var.site_config_ftps_state
     http2_enabled         = var.site_config_http2_enabled
     websockets_enabled    = var.site_config_websockets_enabled
-    remote_debugging      = var.site_config_remote_debugging
     minimum_tls_version   = var.site_config_minimum_tls_version
   
 

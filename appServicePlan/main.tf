@@ -71,7 +71,6 @@ module "app_service" {
     site_config_ftps_state              = var.as_site_config_ftps_state
     site_config_http2_enabled           = var.as_site_config_http2_enabled
     site_config_websockets_enabled      = var.as_site_config_websockets_enabled
-    site_config_remote_debugging        = var.as_site_config_remote_debugging
     site_config_minimum_tls_version     = var.as_site_config_minimum_tls_version
     app_stack_dotnet_version            = var.as_app_stack_dotnet_version
     http_logs_retention_days            = var.as_http_logs_retention_days

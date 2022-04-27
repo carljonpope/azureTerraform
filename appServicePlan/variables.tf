@@ -172,10 +172,6 @@ variable "as_identity_type" {
     description = "Specifies the type of Managed Service Identity that should be configured on this Linux Web App. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
 }
 
-variable "as_site_config_always_on" {
-  description = "If this Linux Web App is Always On enabled. Defaults to false."
-}
-
 variable "as_app_stack_dotnet_version" {
       description = "The version of .Net to use. Possible values include 3.1, 5.0, and 6.0."
 }
@@ -200,10 +196,6 @@ variable "as_site_config_always_on" {
     description = "If this Linux Web App is Always On enabled. Defaults to false."
 }
 
-variable "as_app_stack_dotnet_version" {
-    description = "The version of .Net to use. Possible values include 3.1, 5.0, and 6.0."
-}
-
 variable "as_site_config_managed_pipeline_mode" {
     description = "Managed pipeline mode. Possible values include: Integrated, Classic."
 }
@@ -218,10 +210,6 @@ variable "as_site_config_http2_enabled" {
 
 variable "as_site_config_websockets_enabled" {
         description = "Should Web Sockets be enabled. Defaults to false."
-}
-
-variable "as_site_config_remote_debugging" {
-        description = "Should Remote Debugging be enabled. Defaults to false."
 }
 
 variable "as_site_config_minimum_tls_version" {
