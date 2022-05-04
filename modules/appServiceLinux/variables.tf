@@ -87,17 +87,31 @@ variable "site_config_managed_pipeline_mode" {
 }
 
 variable "site_config_ftps_state" {
-        description = "The State of FTP / FTPS service. Possible values include: AllAllowed, FtpsOnly, Disabled."
+    description = "The State of FTP / FTPS service. Possible values include: AllAllowed, FtpsOnly, Disabled."
 }
 
 variable "site_config_http2_enabled" {
-        description = "Should HTTP2 be enabled?"
+    description = "Should HTTP2 be enabled?"
 }
 
 variable "site_config_websockets_enabled" {
-        description = "Should Web Sockets be enabled. Defaults to false."
+    description = "Should Web Sockets be enabled. Defaults to false."
 }
 
 variable "site_config_minimum_tls_version" {
-        description = "The configures the minimum version of TLS required for SSL requests. Possible values include: 1.0, 1.1, and 1.2. Defaults to 1.2."
+    description = "The configures the minimum version of TLS required for SSL requests. Possible values include: 1.0, 1.1, and 1.2. Defaults to 1.2."
+}
+
+variable "site_config_route_all_enabled" {
+    description = "Should all outbound traffic have Virtual Network Security Groups and User Defined Routes applied?"
+}
+
+# VNet Integration
+
+variable "app_service_id" {
+    description = "The ID of the App Service or Function App to associate to the VNet. Changing this forces a new resource to be created."
+}
+
+variable "subnet_id" {
+    description = "The ID of the subnet the app service will be associated to (the subnet must have a service_delegation configured for Microsoft.Web/serverFarms)."
 }

@@ -1,13 +1,15 @@
 variable "location" {
-
+    description = "The Azure region in which resources should be deployed."
 }
 
-variable "sku_name" {
-    
+variable "asp_sku_name" {
+    description = "The App Service Plan SKU."
 }
+
 
 variable "prefix" {
   default       = "br-az-ics-fcs"
+  description = "Resource name prefix."
 
 }
 
@@ -18,7 +20,7 @@ variable "env" {
 
 
 variable "tags" {
-    
+    description = "Tags to be applied to each resource."
 }
 
 # Autoscale setting
@@ -214,4 +216,144 @@ variable "as_site_config_websockets_enabled" {
 
 variable "as_site_config_minimum_tls_version" {
         description = "The configures the minimum version of TLS required for SSL requests. Possible values include: 1.0, 1.1, and 1.2. Defaults to 1.2."
+}
+
+variable "as_site_config_route_all_enabled" {
+    description = "Should all outbound traffic have Virtual Network Security Groups and User Defined Routes applied?"
+}
+
+# VNet Integration
+
+variable "as_subnet_id" {
+    description = "The ID of the subnet the app service will be associated to (the subnet must have a service_delegation configured for Microsoft.Web/serverFarms)."
+}
+
+# Diagnostic Settings
+
+variable "diag_eventhub_name" {
+    description = "Specifies the name of the Event Hub where Diagnostics Data should be sent. Changing this forces a new resource to be created."
+}
+
+variable "diag_eventhub_authorization_rule_id" {
+    description = "Specifies the ID of an Event Hub Namespace Authorization Rule used to send Diagnostics Data. Changing this forces a new resource to be created."
+}
+
+variable "diag_storage_account_id" {
+    description = "The ID of the Storage Account where logs should be sent. Changing this forces a new resource to be created."
+}
+
+variable "diag_app_service_console_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_console_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_http_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_http_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_audit_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_audit_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_file_audit_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_file_audit_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_app_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_app_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_ipsec_audit_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_ipsec_audit_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_platform_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_platform_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+variable "diag_app_service_avscan_audit_logs_enabled" {
+    description = "The name of a Diagnostic Log Category for this Resource."
+}
+
+variable "diag_app_service_avscan_audit_logs_retention" {
+    description = "The number of days for which this Retention Policy should apply."
+}
+
+# Key Vault
+
+variable "kv_enable_rbac_authorization" {
+    description = "Boolean flag to specify whether Azure Key Vault uses Role Based Access Control (RBAC) for authorization of data actions. Defaults to false."
+}
+
+variable "kv_enabled_for_deployment" {
+    description = "Boolean flag to specify whether Azure Virtual Machines are permitted to retrieve certificates stored as secrets from the key vault. Defaults to false."
+}
+
+variable "kv_enabled_for_disk_encryption" {
+    description = "Boolean flag to specify whether Azure Disk Encryption is permitted to retrieve secrets from the vault and unwrap keys. Defaults to false."
+}
+
+variable "kv_enabled_for_template_deployment" {
+    description = "Boolean flag to specify whether Azure Resource Manager is permitted to retrieve secrets from the key vault. Defaults to false."
+}
+
+variable "kv_purge_protection_enabled" {
+    description = "Is Purge Protection enabled for this Key Vault? Defaults to false."
+}
+
+variable "kv_sku_name" {
+        description = "The Name of the SKU used for this Key Vault. Possible values are standard and premium."
+}
+
+variable "kv_soft_delete_retention_days" {
+        description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
+}
+
+
+# Key Vault Access Policy
+variable "kv_object_id" {
+        description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
+}
+
+variable "kv_key_permissions" {
+        description = "List of key permissions, must be one or more from the following: Backup, Create, Decrypt, Delete, Encrypt, Get, Import, List, Purge, Recover, Restore, Sign, UnwrapKey, Update, Verify and WrapKey."
+}
+
+variable "kv_secret_permissions" {
+        description = "List of secret permissions, must be one or more from the following: Backup, Delete, Get, List, Purge, Recover, Restore and Set."
+}
+
+variable "kv_certificate_permissions" {
+        description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
+}
+
+variable "kv_object_id_2" {
+        description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
 }

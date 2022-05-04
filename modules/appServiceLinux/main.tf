@@ -9,13 +9,15 @@ resource "azurerm_linux_web_app" "app_service" {
   https_only                  = var.https_only
   app_settings                = var.app_settings
   tags                        = var.tags
+
   site_config {
-    always_on             = var.site_config_always_on
-    managed_pipeline_mode = var.site_config_managed_pipeline_mode
-    ftps_state            = var.site_config_ftps_state
-    http2_enabled         = var.site_config_http2_enabled
-    websockets_enabled    = var.site_config_websockets_enabled
-    minimum_tls_version   = var.site_config_minimum_tls_version
+    always_on               = var.site_config_always_on
+    managed_pipeline_mode   = var.site_config_managed_pipeline_mode
+    ftps_state              = var.site_config_ftps_state
+    http2_enabled           = var.site_config_http2_enabled
+    websockets_enabled      = var.site_config_websockets_enabled
+    minimum_tls_version     = var.site_config_minimum_tls_version
+    vnet_route_all_enabled  = var.site_config_route_all_enabled
   
 
     application_stack {
@@ -47,3 +49,9 @@ resource "azurerm_linux_web_app" "app_service" {
   }
 
 }
+
+resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {
+  app_service_id  = var.app_service_id
+  subnet_id       = var.subnet_id
+}
+
