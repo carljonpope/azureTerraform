@@ -51,7 +51,7 @@ as_http_logs_retention_days             = "365"
 as_http_logs_retention_mb               = "35"
 as_http_logs_request_tracing            = "true"
 as_https_logs_detailed_error_messages   = "true"
-as_subnet_id                            = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2"
+as_vnet_integration_subnet_id           = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2"
 
 as_app_settings = {
     APPINSIGHTS_INSTRUMENTATIONKEY = "3f5e29ff-9e74-4353-82ee-ff531f981f2"
@@ -104,3 +104,18 @@ kv_certificate_permissions          = [
             "Get",
 ]
 kv_object_id_2                      = "d2ae3367-7f7d-42ce-a386-da8336b5e6ee"
+
+# DNS Private Zone
+
+dns_privatezone_name    = "privatelink.azurewebsites.net"
+
+# DNS Private Zone VNet Link
+
+dnslink_vnet_id = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1"
+
+# Private Link Endpoint
+
+ple_subresource_names               = ["sites"]
+ple_is_manual_connection            = "false"
+ple_private_dns_zone_group          = "privatednszonegroup"
+ple_vnet_private_endpoint_subnet_id = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3"

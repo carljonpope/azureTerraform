@@ -3,6 +3,7 @@ resource "azurerm_monitor_autoscale_setting" "autoscaleSetting" {
     resource_group_name = var.resource_group_name
     location            = var.location
     target_resource_id  = var.app_service_plan_id
+    tags                = var.tags
     profile {
         name = "default"
         capacity {

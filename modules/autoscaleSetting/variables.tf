@@ -111,3 +111,7 @@ variable "scale_in_value" {
 variable "scale_in_cooldown" {
     description = "The amount of time to wait since the last scaling action before this action occurs. Must be between 1 minute and 1 week and formatted as a ISO 8601 string."
 }
+
+variable "tags" {
+    description = "A mapping of tags which should be assigned to the autoscale setting."
+}

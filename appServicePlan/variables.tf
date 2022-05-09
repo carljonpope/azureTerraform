@@ -224,7 +224,7 @@ variable "as_site_config_route_all_enabled" {
 
 # VNet Integration
 
-variable "as_subnet_id" {
+variable "as_vnet_integration_subnet_id" {
     description = "The ID of the subnet the app service will be associated to (the subnet must have a service_delegation configured for Microsoft.Web/serverFarms)."
 }
 
@@ -329,31 +329,62 @@ variable "kv_purge_protection_enabled" {
 }
 
 variable "kv_sku_name" {
-        description = "The Name of the SKU used for this Key Vault. Possible values are standard and premium."
+    description = "The Name of the SKU used for this Key Vault. Possible values are standard and premium."
 }
 
 variable "kv_soft_delete_retention_days" {
-        description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
+    description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
 }
 
 
 # Key Vault Access Policy
 variable "kv_object_id" {
-        description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
+    description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
 }
 
 variable "kv_key_permissions" {
-        description = "List of key permissions, must be one or more from the following: Backup, Create, Decrypt, Delete, Encrypt, Get, Import, List, Purge, Recover, Restore, Sign, UnwrapKey, Update, Verify and WrapKey."
+    description = "List of key permissions, must be one or more from the following: Backup, Create, Decrypt, Delete, Encrypt, Get, Import, List, Purge, Recover, Restore, Sign, UnwrapKey, Update, Verify and WrapKey."
 }
 
 variable "kv_secret_permissions" {
-        description = "List of secret permissions, must be one or more from the following: Backup, Delete, Get, List, Purge, Recover, Restore and Set."
+    description = "List of secret permissions, must be one or more from the following: Backup, Delete, Get, List, Purge, Recover, Restore and Set."
 }
 
 variable "kv_certificate_permissions" {
-        description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
+    description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
 }
 
 variable "kv_object_id_2" {
-        description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
+    description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
+}
+
+# DNS Private Zone
+
+variable "dns_privatezone_name" {
+    description = "The name of the Private DNS Zone. Must be a valid domain name."
+}
+
+# DNS Private Zone VNet Link
+
+variable "dnslink_vnet_id" {
+    description = "The ID of the Virtual Network that should be linked to the DNS Zone. Changing this forces a new resource to be created."
+  
+}
+
+# Private Link Endpoint
+
+variable "ple_subresource_names" {
+    description = "A list of subresource names which the Private Endpoint is able to connect to. subresource_names corresponds to group_id. Changing this forces a new resource to be created."
+}
+
+variable "ple_is_manual_connection" {
+    description = "Does the Private Endpoint require Manual Approval from the remote resource owner? Changing this forces a new resource to be created."
+}
+
+variable "ple_private_dns_zone_group" {
+    description = "Specifies the Name of the Private DNS Zone Group. Changing this forces a new private_dns_zone_group resource to be created."
+}
+
+variable "ple_vnet_private_endpoint_subnet_id" {
+    description = "The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
 }
