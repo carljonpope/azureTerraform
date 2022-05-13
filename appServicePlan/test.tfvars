@@ -1,5 +1,5 @@
 location                = "uksouth"
-asp_sku_name                = "B1"
+asp_sku_name            = "B1"
 content                 = "clientConfig"
 tags                    = {
     environment =   "dev"
@@ -119,3 +119,56 @@ ple_subresource_names               = ["sites"]
 ple_is_manual_connection            = "false"
 ple_private_dns_zone_group          = "privatednszonegroup"
 ple_vnet_private_endpoint_subnet_id = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3"
+
+# Servicebus Namespace
+
+sb_sku                  = "Standard"
+sb_capacity             = 0
+sb_local_auth_enabled   = "true"
+sb_zone_redundant       = "false" 
+sb_type                 = "SystemAssigned"
+sb_identity_ids         = []
+
+# Servicebus Queue
+
+sbq_lock_duration                           = "PT1M"
+sbq_max_message_size_in_kilobytes           = 1024
+sbq_max_size_in_megabytes                   = 1024
+sbq_requires_duplicate_detection            = "false"
+sbq_requires_session                        = "false"
+sbq_default_message_ttl                     = null #"P10675199DT2H48M5.4S"
+sbq_dead_lettering_on_message_expiration    = "false"
+sbq_duplicate_detection_history_time_window = "PT10M"
+sbq_max_delivery_count                      = 10
+sbq_status                                  = "Active"
+sbq_enable_batched_operations               = "true"
+sbq_auto_delete_on_idle                     = null #"P10675199DT2H48M5.4S"
+sbq_enable_partitioning                     = "false"
+
+# Servicebus topic
+
+sbt_status                                  = "Active"
+sbt_auto_delete_on_idle                     = null
+sbt_default_message_ttl                     = null
+sbt_duplicate_detection_history_time_window = null
+sbt_enable_batched_operations               = "true"
+sbt_enable_express                          = null
+sbt_enable_partitioning                     = "false"
+sbt_max_message_size_in_kilobytes           = 4096
+sbt_max_size_in_megabytes                   = 2048
+sbt_requires_duplicate_detection            = "false"
+sbt_support_ordering                        = "false"
+
+# Servicebus subscription
+
+sbs_max_delivery_count                          = 10
+sbs_auto_delete_on_idle                         = null
+sbs_default_message_ttl                         = null
+sbs_lock_duration                               = null
+sbs_dead_lettering_on_message_expiration        = null
+sbs_dead_lettering_on_filter_evaluation_error   = null
+sbs_enable_batched_operations                   = null
+sbs_requires_session                            = null
+sbs_forward_to                                  = null
+sbs_forward_dead_lettered_messages_to           = null
+sbs_status                                      = null

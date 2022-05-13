@@ -8,7 +8,7 @@ module "resource_group" {
   location            = var.location
   tags                = var.tags
 }
-
+/*
 module "app_service_plan" {
   source              = "../modules/appServicePlan"
   name                = "${var.prefix}-${var.env}-${var.content}-${var.location}-asp01"
@@ -177,4 +177,73 @@ module "dns_privatezone_vnet_link" {
   resource_group_name     = module.resource_group.resource_group_name
   private_dns_zone_name   = module.dns_privatezone.private_dns_zone_name
   virtual_network_id      = var.dnslink_vnet_id
+}
+*/
+module "servicebus_namespace" {
+  source                  = "../modules/servicebusNamespace"
+  name                    = "${var.prefix}-${var.env}-${var.content}-${var.location}-sb01"
+  resource_group_name     = module.resource_group.resource_group_name
+  location                = var.location
+  sku                     = var.sb_sku
+  capacity                = var.sb_capacity
+  local_auth_enabled      = var.sb_local_auth_enabled
+  zone_redundant          = var.sb_zone_redundant
+  tags                    = var.tags
+  type                    = var.sb_type
+  identity_ids            = var.sb_identity_ids
+}
+
+module "servicebus_queue" {
+  source                                  = "../modules/servicebusQueue"
+  name                                    = "${var.prefix}-${var.env}-${var.content}-${var.location}-sbqueue01"
+  namespace_id                            = module.servicebus_namespace.servicebus_namespace_id
+  lock_duration                           = var.sbq_lock_duration
+  max_message_size_in_kilobytes           = var.sbq_max_message_size_in_kilobytes
+  max_size_in_megabytes                   = var.sbq_max_size_in_megabytes
+  requires_duplicate_detection            = var.sbq_requires_duplicate_detection
+  requires_session                        = var.sbq_requires_session
+  default_message_ttl                     = var.sbq_default_message_ttl
+  dead_lettering_on_message_expiration    = var.sbq_dead_lettering_on_message_expiration
+  duplicate_detection_history_time_window = var.sbq_duplicate_detection_history_time_window
+  max_delivery_count                      = var.sbq_max_delivery_count
+  status                                  = var.sbq_status
+  enable_batched_operations               = var.sbq_enable_batched_operations
+  auto_delete_on_idle                     = var.sbq_auto_delete_on_idle
+  enable_partitioning                     = var.sbq_enable_partitioning
+  servicebus_sku                          = var.sb_sku
+}
+
+module "servicebus_topic" {
+  source                                  = "../modules/servicebusTopic"
+  name                                    = "${var.prefix}-${var.env}-${var.content}-${var.location}-sbtopic01"
+  namespace_id                            = module.servicebus_namespace.servicebus_namespace_id
+  status                                  = var.sbt_status
+  auto_delete_on_idle                     = var.sbt_auto_delete_on_idle
+  default_message_ttl                     = var.sbt_default_message_ttl
+  duplicate_detection_history_time_window = var.sbt_duplicate_detection_history_time_window
+  enable_batched_operations               = var.sbt_enable_batched_operations
+  enable_express                          = var.sbt_enable_express
+  enable_partitioning                     = var.sbt_enable_partitioning
+  max_message_size_in_kilobytes           = var.sbt_max_message_size_in_kilobytes
+  max_size_in_megabytes                   = var.sbt_max_size_in_megabytes
+  requires_duplicate_detection            = var.sbt_requires_duplicate_detection
+  support_ordering                        = var.sbt_support_ordering
+  servicebus_sku                          = var.sb_sku
+}
+
+module "servicebus_subscription" {
+  source                                    = "../modules/servicebusSubscription"
+  name                                      = "${var.prefix}-${var.env}-${var.content}-${var.location}-sbsub01"
+  topic_id                                  = module.servicebus_topic.servicebus_topic_id
+  max_delivery_count                        = var.sbs_max_delivery_count
+  auto_delete_on_idle                       = var.sbs_auto_delete_on_idle
+  default_message_ttl                       = var.sbs_default_message_ttl
+  lock_duration                             = var.sbs_lock_duration
+  dead_lettering_on_message_expiration      = var.sbs_dead_lettering_on_message_expiration
+  dead_lettering_on_filter_evaluation_error = var.sbs_dead_lettering_on_filter_evaluation_error
+  enable_batched_operations                 = var.sbs_enable_batched_operations
+  requires_session                          = var.sbs_requires_session
+  forward_to                                = var.sbs_forward_to
+  forward_dead_lettered_messages_to         = var.sbs_forward_dead_lettered_messages_to
+  status                                    = var.sbs_status
 }

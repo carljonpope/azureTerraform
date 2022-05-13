@@ -388,3 +388,175 @@ variable "ple_private_dns_zone_group" {
 variable "ple_vnet_private_endpoint_subnet_id" {
     description = "The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
 }
+
+# Servicebus namespace
+
+variable "sb_sku" {
+  description = "Defines which tier to use. Options are Basic, Standard or Premium. Please note that setting this field to Premium will force the creation of a new resource."
+}
+
+variable "sb_capacity" {
+  description = "Specifies the capacity. When sku is Premium, capacity can be 1, 2, 4, 8 or 16. When sku is Basic or Standard, capacity can be 0 only."
+}
+
+variable "sb_local_auth_enabled" {
+  description = "Whether or not SAS authentication is enabled for the Service Bus namespace. Defaults to true."
+}
+
+variable "sb_zone_redundant" {
+  description = "Whether or not this resource is zone redundant. sku needs to be Premium. Defaults to false."
+}
+
+variable "sb_type" {
+  description = "Specifies the type of Managed Service Identity that should be configured on this ServiceBus Namespace. Possible values are SystemAssigned, UserAssigned, SystemAssigned, UserAssigned (to enable both)."
+}
+
+variable "sb_identity_ids" {
+  description = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this API Management Service."
+}
+
+# Servicebus Queue
+
+variable "sbq_lock_duration" {
+    description = "The ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. Maximum value is 5 minutes. Defaults to 1 minute (PT1M)."
+}
+
+variable "sbq_max_message_size_in_kilobytes" {
+    description = "Integer value which controls the maximum size of a message allowed on the queue for Premium SKU."
+}
+
+variable "sbq_max_size_in_megabytes" {
+    description = "Integer value which controls the size of memory allocated for the queue. Defaults to 1024."
+}
+
+variable "sbq_requires_duplicate_detection" {
+    description = "Boolean flag which controls whether the Queue requires duplicate detection. Changing this forces a new resource to be created. Defaults to false."
+}
+
+variable "sbq_requires_session" {
+    description = "Boolean flag which controls whether the Queue requires sessions. This will allow ordered handling of unbounded sequences of related messages. With sessions enabled a queue can guarantee first-in-first-out delivery of messages. Changing this forces a new resource to be created. Defaults to false."
+}
+
+variable "sbq_default_message_ttl" {
+    description = "The ISO 8601 timespan duration of the TTL of messages sent to this queue. This is the default value used when TTL is not set on message itself."
+}
+
+variable "sbq_dead_lettering_on_message_expiration" {
+    description = "Boolean flag which controls whether the Queue has dead letter support when a message expires. Defaults to false."
+}
+
+variable "sbq_duplicate_detection_history_time_window" {
+    description = "The ISO 8601 timespan duration during which duplicates can be detected. Defaults to 10 minutes (PT10M)."
+}
+
+variable "sbq_max_delivery_count" {
+    description = "Integer value which controls when a message is automatically dead lettered. Defaults to 10."
+}
+
+variable "sbq_status" {
+    description = "The status of the Queue. Possible values are Active, Creating, Deleting, Disabled, ReceiveDisabled, Renaming, SendDisabled, Unknown. Note that Restoring is not accepted. Defaults to Active."
+}
+
+variable "sbq_enable_batched_operations" {
+    description = "Boolean flag which controls whether server-side batched operations are enabled. Defaults to true."
+}
+
+variable "sbq_auto_delete_on_idle" {
+    description = "The ISO 8601 timespan duration of the idle interval after which the Queue is automatically deleted, minimum of 5 minutes."
+}
+
+variable "sbq_enable_partitioning" {
+    description = "Boolean flag which controls whether to enable the queue to be partitioned across multiple message brokers. Changing this forces a new resource to be created. Defaults to false for Basic and Standard. For Premium, it MUST be set to true."
+}
+
+# Servicebus topic
+
+variable "sbt_status" {
+  description = "The Status of the Service Bus Topic. Acceptable values are Active or Disabled. Defaults to Active."
+}
+
+variable "sbt_auto_delete_on_idle" {
+  description = "The ISO 8601 timespan duration of the idle interval after which the Topic is automatically deleted, minimum of 5 minutes."
+}
+
+variable "sbt_default_message_ttl" {
+  description = "The ISO 8601 timespan duration of TTL of messages sent to this topic if no TTL value is set on the message itself."
+}
+
+variable "sbt_duplicate_detection_history_time_window" {
+  description = "The ISO 8601 timespan duration during which duplicates can be detected. Defaults to 10 minutes. (PT10M)"
+}
+
+variable "sbt_enable_batched_operations" {
+  description = "Boolean flag which controls if server-side batched operations are enabled. Defaults to false."
+}
+
+variable "sbt_enable_express" {
+  description = "Boolean flag which controls whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage. Defaults to false."
+}
+
+variable "sbt_enable_partitioning" {
+  description = "Boolean flag which controls whether to enable the topic to be partitioned across multiple message brokers. Defaults to false. Changing this forces a new resource to be created."
+}
+
+variable "sbt_max_message_size_in_kilobytes" {
+  description = "Integer value which controls the maximum size of a message allowed on the topic for Premium SKU."
+}
+
+variable "sbt_max_size_in_megabytes" {
+  description = "Integer value which controls the size of memory allocated for the topic."
+}
+
+variable "sbt_requires_duplicate_detection" {
+  description = "Boolean flag which controls whether the Topic requires duplicate detection. Defaults to false. Changing this forces a new resource to be created."
+}
+
+variable "sbt_support_ordering" {
+  description = "Boolean flag which controls whether the Topic supports ordering. Defaults to false."
+}
+
+# Servicebus subscription
+
+variable "sbs_max_delivery_count" {
+  description = "The maximum number of deliveries."
+}
+
+variable "sbs_auto_delete_on_idle" {
+  description = "The idle interval after which the topic is automatically deleted as an ISO 8601 duration. The minimum duration is 5 minutes or PT5M."
+}
+
+variable "sbs_default_message_ttl" {
+  description = "The Default message timespan to live as an ISO 8601 duration. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself."
+}
+
+variable "sbs_lock_duration" {
+  description = "The lock duration for the subscription as an ISO 8601 duration. The default value is 1 minute or P0DT0H1M0S . The maximum value is 5 minutes or P0DT0H5M0S ."
+}
+
+variable "sbs_dead_lettering_on_message_expiration" {
+  description = "Boolean flag which controls whether the Subscription has dead letter support when a message expires. Defaults to false."
+}
+
+variable "sbs_dead_lettering_on_filter_evaluation_error" {
+  description = "Boolean flag which controls whether the Subscription has dead letter support on filter evaluation exceptions. Defaults to true."
+}
+
+variable "sbs_enable_batched_operations" {
+  description = "Boolean flag which controls whether the Subscription supports batched operations. Defaults to false."
+}
+
+variable "sbs_requires_session" {
+  description = "Boolean flag which controls whether this Subscription supports the concept of a session. Defaults to false. Changing this forces a new resource to be created."
+}
+
+variable "sbs_forward_to" {
+  description = "The name of a Queue or Topic to automatically forward messages to."
+}
+
+variable "sbs_forward_dead_lettered_messages_to" {
+  description = "The name of a Queue or Topic to automatically forward Dead Letter messages to."
+}
+
+variable "sbs_status" {
+  description = "The status of the Subscription. Possible values are Active,ReceiveDisabled, or Disabled. Defaults to Active."
+}
