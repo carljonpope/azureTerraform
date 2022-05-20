@@ -60,7 +60,7 @@ resource "azurerm_network_security_group" "cjptest_nsg01" {
         protocol                   = "Tcp"
         source_port_range          = "*"
         destination_port_range     = "22"
-        source_address_prefixes    = ["82.12.247.77", "148.64.30.25"]  #"${local.ifconfig_co_json.ip}/32"
+        source_address_prefixes    = ["82.12.247.77", "148.64.30.25", "148.64.30.70"]  #"${local.ifconfig_co_json.ip}/32"
         destination_address_prefix = "*"
     }
 

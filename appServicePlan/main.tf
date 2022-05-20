@@ -178,7 +178,7 @@ module "dns_privatezone_vnet_link" {
   private_dns_zone_name   = module.dns_privatezone.private_dns_zone_name
   virtual_network_id      = var.dnslink_vnet_id
 }
-*/
+
 module "servicebus_namespace" {
   source                  = "../modules/servicebusNamespace"
   name                    = "${var.prefix}-${var.env}-${var.content}-${var.location}-sb01"
@@ -246,4 +246,44 @@ module "servicebus_subscription" {
   forward_to                                = var.sbs_forward_to
   forward_dead_lettered_messages_to         = var.sbs_forward_dead_lettered_messages_to
   status                                    = var.sbs_status
+}
+
+*/
+
+module "redis_cache" {
+  source                                    = "../modules/redisCache"
+  name                                      = "${var.prefix}-${var.env}-${var.content}-${var.location}-rc01"
+  resource_group_name                       = module.resource_group.resource_group_name
+  location                                  = var.location
+  capacity                                  = var.rc_capacity
+  family                                    = var.rc_family
+  sku_name                                  = var.rc_sku_name
+  enable_non_ssl_port                       = var.rc_enable_non_ssl_port
+  minimum_tls_version                       = var.rc_minimum_tls_version
+  private_static_ip_address                 = var.rc_private_static_ip_address
+  public_network_access_enabled             = var.rc_public_network_access_enabled
+  redis_version                             = var.rc_redis_version
+  replicas_per_master                       = var.rc_replicas_per_master
+  replicas_per_primary                      = var.rc_replicas_per_primary
+  tenant_settings                           = var.rc_tenant_settings
+  shard_count                               = var.rc_shard_count
+  subnet_id                                 = var.rc_subnet_id
+  tags                                      = var.rc_tags
+  zones                                     = var.rc_zones
+  aof_backup_enabled                        = var.rc_aof_backup_enabled
+  aof_storage_connection_string_0           = var.rc_aof_storage_connection_string_0
+  aof_storage_connection_string_1           = var.rc_aof_storage_connection_string_1
+  enable_authentication                     = var.rc_enable_authentication
+  maxmemory_reserved                        = var.rc_maxmemory_reserved
+  maxmemory_delta                           = var.rc_maxmemory_delta
+  maxmemory_policy                          = var.rc_maxmemory_policy
+  maxfragmentationmemory_reserved           = var.rc_maxfragmentationmemory_reserved
+  rdb_backup_enabled                        = var.rc_rdb_backup_enabled
+  rdb_backup_frequency                      = var.rc_rdb_backup_frequency
+  rdb_backup_max_snapshot_count             = var.rc_rdb_backup_max_snapshot_count
+  rdb_storage_connection_string             = var.rc_rdb_storage_connection_string
+  notify_keyspace_events                    = var.rc_notify_keyspace_events
+  day_of_week                               = var.rc_day_of_week
+  start_hour_utc                            = var.rc_start_hour_utc
+  maintenance_window                        = var.rc_maintenance_window
 }

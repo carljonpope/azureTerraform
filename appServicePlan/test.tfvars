@@ -172,3 +172,37 @@ sbs_requires_session                            = null
 sbs_forward_to                                  = null
 sbs_forward_dead_lettered_messages_to           = null
 sbs_status                                      = null
+
+# Redis Cache
+
+rc_capacity                         = "1"
+rc_family                           = "C"
+rc_sku_name                         = "Basic"
+rc_enable_non_ssl_port              = null
+rc_minimum_tls_version              = null
+rc_private_static_ip_address        = null
+rc_public_network_access_enabled    = null
+rc_redis_version                    = null
+rc_replicas_per_master              = null
+rc_replicas_per_primary             = null
+rc_tenant_settings                  = null
+rc_shard_count                      = null
+rc_subnet_id                        = null
+rc_tags                             = null
+rc_zones                            = null
+rc_aof_backup_enabled               = null
+rc_aof_storage_connection_string_0  = null
+rc_aof_storage_connection_string_1  = null
+rc_enable_authentication            = null
+rc_maxmemory_reserved               = null
+rc_maxmemory_delta                  = null
+rc_maxmemory_policy                 = null
+rc_maxfragmentationmemory_reserved  = null
+rc_rdb_backup_enabled               = null
+rc_rdb_backup_frequency             = null
+rc_rdb_backup_max_snapshot_count    = null
+rc_rdb_storage_connection_string    = null
+rc_notify_keyspace_events           = null
+rc_day_of_week                      = "Sunday"
+rc_start_hour_utc                   = null
+rc_maintenance_window               = null
