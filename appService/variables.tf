@@ -14,6 +14,6 @@ variable "appServiceLocation" {
 
 }
 
-variable "appServiceName2" {    
+variable "appServiceName2" {
 
 }

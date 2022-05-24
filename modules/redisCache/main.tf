@@ -35,8 +35,8 @@ resource "azurerm_redis_cache" "redis_cache" {
   }
 
   patch_schedule {
-    day_of_week         = var.day_of_week
-    start_hour_utc      = var.start_hour_utc
-    maintenance_window  = var.maintenance_window
+    day_of_week        = var.day_of_week
+    start_hour_utc     = var.start_hour_utc
+    maintenance_window = var.maintenance_window
   }
 }

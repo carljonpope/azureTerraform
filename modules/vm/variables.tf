@@ -1,15 +1,15 @@
 variable "prefix" {
-    default = "test"
+  default = "test"
 }
 
 variable "location" {
-    default = "uksouth"
+  default = "uksouth"
 }
 
 variable "rgName" {
-    default = "compute"
+  default = "compute"
 }
 
 variable "vm_subnet_id" {
-    
+
 }

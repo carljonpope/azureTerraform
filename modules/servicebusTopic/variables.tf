@@ -51,5 +51,5 @@ variable "support_ordering" {
 }
 
 variable "servicebus_sku" {
-    description = "The Servicebus Namespae SKU."
+  description = "The Servicebus Namespae SKU."
 }

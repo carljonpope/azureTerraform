@@ -16,9 +16,9 @@ data "azurerm_network_security_group" "nsg" {
 }
 
 data "azurerm_subnet" "resource_subnet" {
-  name                = local.settings.subnet.name
+  name                 = local.settings.subnet.name
   virtual_network_name = local.settings.vnet_name
-  resource_group_name = local.settings.global_resource_group
+  resource_group_name  = local.settings.global_resource_group
 }
 
 data "azurerm_app_service_plan" "app_plan" {
@@ -35,18 +35,18 @@ resource "azurerm_resource_group" "rg" {
 
 # Key Vault
 resource "azurerm_key_vault" "kv01" {
-  count                           = local.settings.create_keyvault ? 1 : 0
-  name                            = local.settings.keyvault_config.name
-  location                        = local.settings.region
-  resource_group_name             = azurerm_resource_group.rg.name
-  tenant_id                       = data.azurerm_client_config.current.tenant_id
-  sku_name                        = local.settings.keyvault_config.sku_name
-  soft_delete_enabled             = true
-  purge_protection_enabled        = true
+  count                    = local.settings.create_keyvault ? 1 : 0
+  name                     = local.settings.keyvault_config.name
+  location                 = local.settings.region
+  resource_group_name      = azurerm_resource_group.rg.name
+  tenant_id                = data.azurerm_client_config.current.tenant_id
+  sku_name                 = local.settings.keyvault_config.sku_name
+  soft_delete_enabled      = true
+  purge_protection_enabled = true
 
   network_acls {
-    default_action = "Deny"
-    bypass         = "AzureServices"
+    default_action             = "Deny"
+    bypass                     = "AzureServices"
     virtual_network_subnet_ids = [data.azurerm_subnet.resource_subnet.id]
   }
 }
@@ -60,11 +60,11 @@ resource "azurerm_app_service" "appservice" {
   https_only          = true
 
   site_config {
-    scm_type                 = "LocalGit"
-    ftps_state               = "Disabled"
-    always_on                = true
-    http2_enabled            = true
-    min_tls_version          = 1.2
+    scm_type        = "LocalGit"
+    ftps_state      = "Disabled"
+    always_on       = true
+    http2_enabled   = true
+    min_tls_version = 1.2
   }
 
   identity {
@@ -74,12 +74,12 @@ resource "azurerm_app_service" "appservice" {
   logs {
     http_logs {
       file_system {
-        retention_in_mb   = 35     # in Megabytes
-        retention_in_days = 35     # in days
+        retention_in_mb   = 35 # in Megabytes
+        retention_in_days = 35 # in days
       }
     }
   }
-  
+
   app_settings = var.app_settings
 
   lifecycle {
@@ -94,7 +94,7 @@ resource "azurerm_app_service" "appservice" {
 
 # Subnet association with App Service
 resource "azurerm_app_service_virtual_network_swift_connection" "subnets" {
-  subnet_id          = data.azurerm_subnet.resource_subnet.id
+  subnet_id      = data.azurerm_subnet.resource_subnet.id
   app_service_id = azurerm_app_service.appservice.id
 }
 
@@ -123,14 +123,14 @@ resource "azurerm_key_vault_access_policy" "global-keyvault-access" {
 
 # Storage Account
 resource "azurerm_storage_account" "sa" {
-  count                         = local.settings.create_storage_account ? 1 : 0
-  name                          = local.settings.storage_account.name
-  resource_group_name           = azurerm_resource_group.rg.name
-  location                      = azurerm_resource_group.rg.location
-  account_tier                  = local.settings.storage_account.account_tier
-  account_kind                  = local.settings.storage_account.account_kind
-  account_replication_type      = local.settings.storage_account.replication_type
-  access_tier                   = local.settings.storage_account.access_tier
+  count                    = local.settings.create_storage_account ? 1 : 0
+  name                     = local.settings.storage_account.name
+  resource_group_name      = azurerm_resource_group.rg.name
+  location                 = azurerm_resource_group.rg.location
+  account_tier             = local.settings.storage_account.account_tier
+  account_kind             = local.settings.storage_account.account_kind
+  account_replication_type = local.settings.storage_account.replication_type
+  access_tier              = local.settings.storage_account.access_tier
 
   network_rules {
     default_action             = "Deny"

@@ -25,8 +25,8 @@ resource "azurerm_container_group" "example" {
     ports {
       port     = 50000
       protocol = "TCP"
-    }    
-    
+    }
+
   }
   tags = {
     environment = "testing"

@@ -1,30 +1,3 @@
-resource "azurerm_mssql_server" "mssql_server" {
-  name                                 = var.name
-  resource_group_name                  = var.resource_group_name
-  location                             = var.location
-  version                              = var.sql_version
-  administrator_login                  = var.administrator_login
-  administrator_login_password         = var.administrator_login_password
-  connection_policy                    = var.connection_policy
-  minimum_tls_version                  = var.minimum_tls_version
-  public_network_access_enabled        = var.public_network_access_enabled
-  outbound_network_restriction_enabled = var.outbound_network_restriction_enabled
-  primary_user_assigned_identity_id    = var.primary_user_assigned_identity_id
-  tags                                 = var.tags
-
-  azuread_administrator {
-    login_username              = var.login_username
-    object_id                   = var.object_id
-    tenant_id                   = var.tenant_id
-    azuread_authentication_only = var.azuread_authentication_only
-  }
-
-  identity {
-    type         = var.type
-    identity_ids = var.identity_ids
-  }
-}
-/*
 resource "azurerm_mssql_server_extended_auditing_policy" "mssql_server_extended_auditing_policy" {
   count                                   = var.extended_auditing_enabled == "true" ? 1 : 0
   enabled                                 = var.extended_auditing_enabled
@@ -35,6 +8,10 @@ resource "azurerm_mssql_server_extended_auditing_policy" "mssql_server_extended_
   retention_in_days                       = var.retention_in_days
   log_monitoring_enabled                  = var.log_monitoring_enabled
   storage_account_subscription_id         = var.storage_account_subscription_id
+
+  depends_on = [
+    azurerm_role_assignment.audit_contributor
+  ]
 }
 
 resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
@@ -46,10 +23,16 @@ resource "azurerm_monitor_diagnostic_setting" "diagnostic_setting" {
 
   log {
     category = "SQLSecurityAuditEvents"
-    enabled = true
+    enabled  = true
 
     retention_policy {
       enabled = false
     }
   }
-}*/
+}
+
+resource "azurerm_role_assignment" "audit_contributor" {
+  scope                = var.audit_scope
+  role_definition_name = var.audit_role_definition_name
+  principal_id         = var.audit_principal_id
+}

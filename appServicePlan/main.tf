@@ -3,10 +3,10 @@ data "azurerm_client_config" "current" {
 }
 
 module "resource_group" {
-  source              = "../modules/resourceGroup"
-  name                = "${var.prefix}-${var.env}-${var.content}-${var.location}-rg01"
-  location            = var.location
-  tags                = var.tags
+  source   = "../modules/resourceGroup"
+  name     = "${var.prefix}-${var.env}-${var.content}-${var.location}-rg03"
+  location = var.location
+  tags     = var.tags
 }
 /*
 module "app_service_plan" {
@@ -248,7 +248,7 @@ module "servicebus_subscription" {
   status                                    = var.sbs_status
 }
 
-*/
+
 
 module "redis_cache" {
   source                                    = "../modules/redisCache"
@@ -286,4 +286,97 @@ module "redis_cache" {
   day_of_week                               = var.rc_day_of_week
   start_hour_utc                            = var.rc_start_hour_utc
   maintenance_window                        = var.rc_maintenance_window
+}
+
+*/
+
+module "mssqlserver" {
+  source                               = "../modules/azureSqlServer"
+  name                                 = lower("${var.prefix}-${var.env}-${var.content}-${var.location}-sqls02")
+  resource_group_name                  = module.resource_group.resource_group_name
+  location                             = var.location
+  tags                                 = var.tags
+  sql_version                          = var.ss_sql_version
+  administrator_login                  = var.ss_administrator_login
+  administrator_login_password         = var.ss_administrator_login_password
+  connection_policy                    = var.ss_connection_policy
+  minimum_tls_version                  = var.ss_minimum_tls_version
+  public_network_access_enabled        = var.ss_public_network_access_enabled
+  outbound_network_restriction_enabled = var.ss_outbound_network_restriction_enabled
+  primary_user_assigned_identity_id    = var.ss_primary_user_assigned_identity_id
+  login_username                       = var.ss_login_username
+  object_id                            = var.ss_object_id
+  tenant_id                            = var.ss_tenant_id
+  azuread_authentication_only          = var.ss_azuread_authentication_only
+  type                                 = var.ss_type
+  identity_ids                         = var.ss_identity_ids
+}
+
+module "mssqldatabase" {
+  source                                        = "../modules/azureSqlDatabase"
+  name                                          = "${var.prefix}-${var.env}-${var.content}-${var.location}-sqldb01"
+  tags                                          = var.tags
+  server_id                                     = module.mssqlserver.mssql_server_id
+  auto_pause_delay_in_minutes                   = var.db_auto_pause_delay_in_minutes
+  create_mode                                   = var.db_create_mode
+  creation_source_database_id                   = var.db_creation_source_database_id
+  collation                                     = var.db_collation
+  elastic_pool_id                               = var.db_elastic_pool_id
+  geo_backup_enabled                            = var.db_geo_backup_enabled
+  ledger_enabled                                = var.db_ledger_enabled
+  license_type                                  = var.db_license_type
+  max_size_gb                                   = var.db_max_size_gb
+  min_capacity                                  = var.db_min_capacity
+  restore_point_in_time                         = var.db_restore_point_in_time
+  recover_database_id                           = var.db_recover_database_id
+  restore_dropped_database_id                   = var.db_restore_dropped_database_id
+  read_replica_count                            = var.db_read_replica_count
+  read_scale                                    = var.db_read_scale
+  sample_name                                   = var.db_sample_name
+  sku_name                                      = var.db_sku_name
+  storage_account_type                          = var.db_storage_account_type
+  transparent_data_encryption_enabled           = var.db_transparent_data_encryption_enabled
+  zone_redundant                                = var.db_zone_redundant
+  audit_storage_account_access_key              = var.db_audit_storage_account_access_key
+  audit_storage_endpoint                        = var.db_audit_storage_endpoint
+  audit_storage_account_access_key_is_secondary = var.db_audit_storage_account_access_key_is_secondary
+  audit_retention_in_days                       = var.db_audit_retention_in_days
+  audit_log_monitoring_enabled                  = var.db_audit_log_monitoring_enabled
+  lt_weekly_retention                           = var.db_lt_weekly_retention
+  lt_monthly_retention                          = var.db_lt_monthly_retention
+  lt_yearly_retention                           = var.db_lt_yearly_retention
+  lt_week_of_year                               = var.db_lt_week_of_year
+  st_retention_days                             = var.db_st_retention_days
+  st_backup_interval_in_hours                   = var.db_st_backup_interval_in_hours
+  td_state                                      = var.db_td_state
+  td_disabled_alerts                            = var.db_td_disabled_alerts
+  td_email_account_admins                       = var.db_td_email_account_admins
+  td_email_addresses                            = var.db_td_email_addresses
+  td_retention_days                             = var.db_td_retention_days
+  td_storage_account_access_key                 = var.db_td_storage_account_access_key
+  td_storage_endpoint                           = var.db_td_storage_endpoint
+}
+
+module "sql_auditing" {
+  source                                  = "../modules/azureSqlAuditing"
+  extended_auditing_enabled               = var.sau_extended_auditing_enabled
+  server_id                               = module.mssqlserver.mssql_server_id
+  storage_endpoint                        = var.sau_storage_endpoint
+  storage_account_access_key              = var.sau_storage_account_access_key
+  storage_account_access_key_is_secondary = var.sau_storage_account_access_key_is_secondary
+  retention_in_days                       = var.sau_retention_in_days
+  log_monitoring_enabled                  = var.sau_log_monitoring_enabled
+  storage_account_subscription_id         = var.sau_storage_account_subscription_id
+
+  target_resource_id             = "${module.mssqlserver.mssql_server_id}/databases/master"
+  eventhub_authorization_rule_id = var.sau_eventhub_authorization_rule_id #"/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/storage/providers/Microsoft.EventHub/namespaces/cjptest-ehn01/authorizationRules/RootManageSharedAccessKey"
+  eventhub_name                  = var.sau_eventhub_name                  #"test"
+
+  audit_scope                = var.sau_audit_scope
+  audit_role_definition_name = var.sau_audit_role_definition_name
+  audit_principal_id         = module.mssqlserver.mssql_server_princiapl_id
+
+  depends_on = [
+    module.mssqldatabase
+  ]
 }

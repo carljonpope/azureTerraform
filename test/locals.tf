@@ -1,5 +1,5 @@
 locals {
 
-    myCount = "a" #length(var.myarray)
+  myCount = "a" #length(var.myarray)
 
 }

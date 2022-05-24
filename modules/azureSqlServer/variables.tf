@@ -10,10 +10,9 @@ variable "location" {
   description = "Specifies the supported Azure location where the resource exists. Changing this forces a new resource to be created."
 }
 
-variable "version" {
+variable "sql_version" {
   description = "The version for the new server. Valid values are: 2.0 (for v11 server) and 12.0 (for v12 server)."
 }
-
 variable "administrator_login" {
   description = "The administrator login name for the new server. Required unless azuread_authentication_only in the azuread_administrator block is true. When omitted, Azure will generate a default username which cannot be subsequently changed. Changing this forces a new resource to be created."
 }

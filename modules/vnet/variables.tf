@@ -1,6 +1,6 @@
 variable "vnetLocation" {
 
-  description   = "Location of the vnet"
+  description = "Location of the vnet"
   #default ="ukwest"
 
 }
