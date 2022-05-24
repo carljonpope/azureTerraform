@@ -269,12 +269,12 @@ db_td_storage_endpoint                           = null
 
 sau_extended_auditing_enabled               = "true"
 sau_storage_endpoint                        = "https://cjptest02.blob.core.windows.net"
-sau_storage_account_access_key              = null #"jWzOZTAvenkYEaxvEF53o+ua8s4nEsAAT7e4AyAXiPkLXEqLx4blhYXOUYlbK+IOg9DDOv8JQGbjALhqQMovDA=="
+sau_storage_account_access_key              = null
 sau_storage_account_access_key_is_secondary = null #"false"
 sau_retention_in_days                       = "365"
 sau_log_monitoring_enabled                  = null
 sau_storage_account_subscription_id         = null
-sau_eventhub_authorization_rule_id          = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/storage/providers/Microsoft.EventHub/namespaces/cjptest-ehn01/authorizationRules/RootManageSharedAccessKey"
+sau_eventhub_authorization_rule_id          = null
 sau_eventhub_name                           = "test"
-sau_audit_scope                             = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Storage/storageAccounts/cjptest02"
+sau_audit_scope                             = null
 sau_audit_role_definition_name              = "Storage Blob Data Contributor"
