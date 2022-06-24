@@ -8,6 +8,12 @@ resource "azurerm_servicebus_namespace" "servicebus_namespace" {
   zone_redundant      = var.zone_redundant
   tags                = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   identity {
     type         = var.type
     identity_ids = var.identity_ids

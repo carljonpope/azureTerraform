@@ -18,6 +18,12 @@ resource "azurerm_redis_cache" "redis_cache" {
   tags                          = var.tags
   zones                         = var.zones
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   redis_configuration {
     aof_backup_enabled              = var.aof_backup_enabled
     aof_storage_connection_string_0 = var.aof_storage_connection_string_0

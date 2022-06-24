@@ -5,7 +5,7 @@ resource "azurerm_resource_group" "resource_group" {
 
   lifecycle {
     ignore_changes = [
-      tags["Created Date"]
+      tags["CreatedDate"]
     ]
   }
 }

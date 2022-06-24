@@ -10,6 +10,12 @@ resource "azurerm_linux_web_app" "app_service" {
   app_settings               = var.app_settings
   tags                       = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   site_config {
     always_on              = var.site_config_always_on
     managed_pipeline_mode  = var.site_config_managed_pipeline_mode
@@ -47,7 +53,6 @@ resource "azurerm_linux_web_app" "app_service" {
     failed_request_tracing  = var.http_logs_request_tracing
     detailed_error_messages = var.https_logs_detailed_error_messages
   }
-
 }
 
 resource "azurerm_app_service_virtual_network_swift_connection" "vnet_integration" {

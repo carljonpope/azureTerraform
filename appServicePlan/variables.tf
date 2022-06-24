@@ -1,135 +1,28 @@
+variable "prefix" {
+  default     = "br-az-ics-fcs"
+  description = "Resource name prefix."
+}
+
 variable "location" {
   description = "The Azure region in which resources should be deployed."
 }
 
-variable "asp_sku_name" {
-  description = "The App Service Plan SKU."
-}
-
-
-variable "prefix" {
-  default     = "br-az-ics-fcs"
-  description = "Resource name prefix."
-
-}
-
 variable "env" {
-  default     = "dev"
   description = "The environment in which the resource will be deployed"
 }
 
-/*
-variable "tags" {
-  description = "Tags to be applied to each resource."
-}*/
-
-# Autoscale setting
 variable "content" {
   description = "The type of content in the resource group, e.g application name, or network resources"
 }
 
-variable "capacity_default" {
-  description = "The number of instances that are available for scaling if metrics are not available for evaluation. The default is only used if the current instance count is lower than the default. Valid values are between 0 and 1000."
+variable "tags" {
+  description = "Tags to be applied to each resource."
 }
 
-variable "capacity_minimum" {
-  description = "The minimum number of instances for this resource. Valid values are between 0 and 1000."
-}
+# App Service Plan
 
-variable "capacity_maximum" {
-  description = "The maximum number of instances for this resource. Valid values are between 0 and 1000."
-}
-
-variable "scale_out_metric_name" {
-  description = "The name of the metric that defines what the rule monitors, such as Percentage CPU for Virtual Machine Scale Sets and CpuPercentage for App Service Plan."
-}
-
-variable "scale_out_time_grain" {
-  description = "Specifies the granularity of metrics that the rule monitors, which must be one of the pre-defined values returned from the metric definitions for the metric. This value must be between 1 minute and 12 hours an be formatted as an ISO 8601 string."
-}
-
-variable "scale_out_statistic" {
-  description = "Specifies how the metrics from multiple instances are combined. Possible values are Average, Min and Max."
-}
-
-variable "scale_out_time_window" {
-  description = "Specifies the time range for which data is collected, which must be greater than the delay in metric collection (which varies from resource to resource). This value must be between 5 minutes and 12 hours and be formatted as an ISO 8601 string."
-}
-
-variable "scale_out_time_aggregation" {
-  description = "Specifies how the data that's collected should be combined over time. Possible values include Average, Count, Maximum, Minimum, Last and Total."
-}
-
-variable "scale_out_operator" {
-  description = "Specifies the operator used to compare the metric data and threshold. Possible values are: Equals, NotEquals, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual."
-}
-
-variable "scale_out_threshold" {
-  description = "Specifies the threshold of the metric that triggers the scale action."
-}
-
-variable "scale_in_metric_name" {
-  description = "The name of the metric that defines what the rule monitors, such as Percentage CPU for Virtual Machine Scale Sets and CpuPercentage for App Service Plan."
-
-}
-
-variable "scale_in_time_grain" {
-  description = "Specifies the granularity of metrics that the rule monitors, which must be one of the pre-defined values returned from the metric definitions for the metric. This value must be between 1 minute and 12 hours an be formatted as an ISO 8601 string."
-
-}
-
-variable "scale_in_statistic" {
-  description = "Specifies how the metrics from multiple instances are combined. Possible values are Average, Min and Max."
-
-}
-
-variable "scale_in_time_window" {
-  description = "Specifies the time range for which data is collected, which must be greater than the delay in metric collection (which varies from resource to resource). This value must be between 5 minutes and 12 hours and be formatted as an ISO 8601 string."
-
-}
-
-variable "scale_in_time_aggregation" {
-  description = "Specifies how the data that's collected should be combined over time. Possible values include Average, Count, Maximum, Minimum, Last and Total."
-
-}
-
-variable "scale_in_operator" {
-  description = "Specifies the operator used to compare the metric data and threshold. Possible values are: Equals, NotEquals, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual."
-
-}
-
-variable "scale_in_threshold" {
-  description = "Specifies the threshold of the metric that triggers the scale action."
-}
-
-variable "scale_out_type" {
-  default     = "ChangeCount"
-  description = "The type of action that should occur. Possible values are ChangeCount, ExactCount, PercentChangeCount and ServiceAllowedNextValue."
-}
-
-variable "scale_out_value" {
-  default     = "1"
-  description = "The number of instances involved in the scaling action. Defaults to 1."
-}
-
-variable "scale_out_cooldown" {
-  default     = "PT1M"
-  description = "The amount of time to wait since the last scaling action before this action occurs. Must be between 1 minute and 1 week and formatted as a ISO 8601 string."
-}
-
-variable "scale_in_type" {
-  default     = "ChangeCount"
-  description = "The type of action that should occur. Possible values are ChangeCount, ExactCount, PercentChangeCount and ServiceAllowedNextValue."
-}
-
-variable "scale_in_value" {
-  default     = "1"
-  description = "The number of instances involved in the scaling action. Defaults to 1."
-}
-
-variable "scale_in_cooldown" {
-  default     = "PT1M"
-  description = "The amount of time to wait since the last scaling action before this action occurs. Must be between 1 minute and 1 week and formatted as a ISO 8601 string."
+variable "asp_sku_name" {
+  description = "The App Service Plan SKU."
 }
 
 # App Service
@@ -228,82 +121,35 @@ variable "as_vnet_integration_subnet_id" {
   description = "The ID of the subnet the app service will be associated to (the subnet must have a service_delegation configured for Microsoft.Web/serverFarms)."
 }
 
-# Diagnostic Settings
+# DNS Private Zone
 
-variable "diag_eventhub_name" {
-  description = "Specifies the name of the Event Hub where Diagnostics Data should be sent. Changing this forces a new resource to be created."
+variable "dns_privatezone_name" {
+  description = "The name of the Private DNS Zone. Must be a valid domain name."
 }
 
-variable "diag_eventhub_authorization_rule_id" {
-  description = "Specifies the ID of an Event Hub Namespace Authorization Rule used to send Diagnostics Data. Changing this forces a new resource to be created."
+# DNS Private Zone VNet Link
+
+variable "dnslink_vnet_id" {
+  description = "The ID of the Virtual Network that should be linked to the DNS Zone. Changing this forces a new resource to be created."
+
 }
 
-variable "diag_storage_account_id" {
-  description = "The ID of the Storage Account where logs should be sent. Changing this forces a new resource to be created."
+# Private Link Endpoint
+
+variable "ple_subresource_names" {
+  description = "A list of subresource names which the Private Endpoint is able to connect to. subresource_names corresponds to group_id. Changing this forces a new resource to be created."
 }
 
-variable "diag_app_service_console_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
+variable "ple_is_manual_connection" {
+  description = "Does the Private Endpoint require Manual Approval from the remote resource owner? Changing this forces a new resource to be created."
 }
 
-variable "diag_app_service_console_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
+variable "ple_private_dns_zone_group" {
+  description = "Specifies the Name of the Private DNS Zone Group. Changing this forces a new private_dns_zone_group resource to be created."
 }
 
-variable "diag_app_service_http_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_http_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_audit_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_audit_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_file_audit_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_file_audit_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_app_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_app_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_ipsec_audit_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_ipsec_audit_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_platform_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_platform_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
-}
-
-variable "diag_app_service_avscan_audit_logs_enabled" {
-  description = "The name of a Diagnostic Log Category for this Resource."
-}
-
-variable "diag_app_service_avscan_audit_logs_retention" {
-  description = "The number of days for which this Retention Policy should apply."
+variable "ple_vnet_private_endpoint_subnet_id" {
+  description = "The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
 }
 
 # Key Vault
@@ -352,11 +198,26 @@ variable "kv_virtual_network_subnet_ids" {
   description = "One or more Subnet IDs which should be able to access this Key Vault."
 }
 
+# Key vault secret
+
+variable "kvs_value" {
+  description = "Specifies the value of the Key Vault Secret."
+  default = "Placeholder"
+}
+
+variable "kvs_content_type" {
+  description = "Specifies the content type for the Key Vault Secret."
+}
+
+variable "kvs_not_before_date" {
+  description = "Key not usable before the provided UTC datetime (Y-m-d'T'H:M:S'Z')."
+}
+
+variable "kvs_expiration_date" {
+  description = "Expiration UTC datetime (Y-m-d'T'H:M:S'Z')."
+}
 
 # Key Vault Access Policy
-variable "kv_object_id" {
-  description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
-}
 
 variable "kv_key_permissions" {
   description = "List of key permissions, must be one or more from the following: Backup, Create, Decrypt, Delete, Encrypt, Get, Import, List, Purge, Recover, Restore, Sign, UnwrapKey, Update, Verify and WrapKey."
@@ -369,40 +230,17 @@ variable "kv_secret_permissions" {
 variable "kv_certificate_permissions" {
   description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
 }
-/*
-variable "kv_object_id_2" {
-  description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
-}
-*/
-# DNS Private Zone
 
-variable "dns_privatezone_name" {
-  description = "The name of the Private DNS Zone. Must be a valid domain name."
+variable "kv2_key_permissions" {
+  description = "List of key permissions, must be one or more from the following: Backup, Create, Decrypt, Delete, Encrypt, Get, Import, List, Purge, Recover, Restore, Sign, UnwrapKey, Update, Verify and WrapKey."
 }
 
-# DNS Private Zone VNet Link
-
-variable "dnslink_vnet_id" {
-  description = "The ID of the Virtual Network that should be linked to the DNS Zone. Changing this forces a new resource to be created."
-
+variable "kv2_secret_permissions" {
+  description = "List of secret permissions, must be one or more from the following: Backup, Delete, Get, List, Purge, Recover, Restore and Set."
 }
 
-# Private Link Endpoint
-
-variable "ple_subresource_names" {
-  description = "A list of subresource names which the Private Endpoint is able to connect to. subresource_names corresponds to group_id. Changing this forces a new resource to be created."
-}
-
-variable "ple_is_manual_connection" {
-  description = "Does the Private Endpoint require Manual Approval from the remote resource owner? Changing this forces a new resource to be created."
-}
-
-variable "ple_private_dns_zone_group" {
-  description = "Specifies the Name of the Private DNS Zone Group. Changing this forces a new private_dns_zone_group resource to be created."
-}
-
-variable "ple_vnet_private_endpoint_subnet_id" {
-  description = "The ID of the Subnet from which Private IP Addresses will be allocated for this Private Endpoint. Changing this forces a new resource to be created."
+variable "kv2_certificate_permissions" {
+  description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
 }
 
 # Servicebus namespace
@@ -759,6 +597,16 @@ variable "ss_type" {
 
 variable "ss_identity_ids" {
   description = "Specifies a list of User Assigned Managed Identity IDs to be assigned to this API Management Service."
+}
+
+# SQL Server VNet Rule
+
+variable "ss_subnet_id" {
+  description = "The ID of the subnet from which the SQL server will accept communications."  
+}
+
+variable "ss_ignore_missing_vnet_service_endpoint" {
+  description = "Create the virtual network rule before the subnet has the virtual network service endpoint enabled. Defaults to false."  
 }
 
 # SQL Database

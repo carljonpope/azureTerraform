@@ -12,6 +12,12 @@ resource "azurerm_key_vault" "key_vault" {
   sku_name                        = var.sku_name
   tags                            = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   network_acls {
     bypass                      = var.bypass
     default_action              = var.default_action

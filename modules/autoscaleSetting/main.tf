@@ -4,6 +4,13 @@ resource "azurerm_monitor_autoscale_setting" "autoscaleSetting" {
   location            = var.location
   target_resource_id  = var.app_service_plan_id
   tags                = var.tags
+
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+  
   profile {
     name = "default"
     capacity {

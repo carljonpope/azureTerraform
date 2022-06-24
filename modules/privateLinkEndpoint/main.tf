@@ -5,6 +5,12 @@ resource "azurerm_private_endpoint" "private_endpoint" {
   subnet_id           = var.subnet_id
   tags                = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   private_service_connection {
     name                           = var.private_service_connection_name
     private_connection_resource_id = var.private_connection_resource_id

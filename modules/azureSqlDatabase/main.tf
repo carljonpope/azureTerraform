@@ -23,6 +23,12 @@ resource "azurerm_mssql_database" "mssql_database" {
   zone_redundant                      = var.zone_redundant
   tags                                = var.tags
 
+  lifecycle {
+    ignore_changes = [
+      tags["CreatedDate"]
+    ]
+  }
+
   long_term_retention_policy {
     weekly_retention  = var.lt_weekly_retention
     monthly_retention = var.lt_monthly_retention

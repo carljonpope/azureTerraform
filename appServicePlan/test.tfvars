@@ -1,35 +1,10 @@
-location     = "swedencentral"
-asp_sku_name = "B1"
+location     = "uksouth"
 content      = "clientConfig"
-/*tags = {
-  environment         = "dev"
-  "Deployed By"         = "Azure Cloud Foundation Architecture"
-  "cfa:classification"  = "npd"
-  "Created Date"        = local.createdDate
-}
-*/
-# Autoscale setting
+env          = "sbx"
 
-capacity_default = "1"
-capacity_minimum = "1"
-capacity_maximum = "3"
+# App Service Plan
 
-scale_out_metric_name      = "CpuPercentage"
-scale_out_time_grain       = "PT1M"
-scale_out_statistic        = "Average"
-scale_out_time_window      = "PT5M"
-scale_out_time_aggregation = "Average"
-scale_out_operator         = "GreaterThan"
-scale_out_threshold        = 80
-
-scale_in_metric_name      = "CpuPercentage"
-scale_in_time_grain       = "PT1M"
-scale_in_statistic        = "Average"
-scale_in_time_window      = "PT5M"
-scale_in_time_aggregation = "Average"
-scale_in_operator         = "LessThan"
-scale_in_threshold        = 60
-
+asp_sku_name = "B1"
 
 # App Service
 
@@ -37,9 +12,6 @@ as_client_affinity_enabled            = "true"
 as_client_certificate_enabled         = "false"
 as_enabled                            = "true"
 as_https_only                         = "true"
-as_connection_string_name             = "ClientConfiguration"
-as_connection_string_type             = "SQLServer"
-as_connection_string_value            = "@Microsoft.KeyVault(SecretUri=https://dev-clientconfig-kv01.vault.azure.net/secrets/ConnectionStrings-DataUser/7199bcfd08be4c1f8700a8b69cf6785)"
 as_identity_type                      = "SystemAssigned"
 as_auth_settings_enabled              = "false"
 as_site_config_always_on              = "true"
@@ -54,79 +26,90 @@ as_http_logs_retention_days           = "365"
 as_http_logs_retention_mb             = "35"
 as_http_logs_request_tracing          = "true"
 as_https_logs_detailed_error_messages = "true"
-as_vnet_integration_subnet_id         = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet2"
+as_vnet_integration_subnet_id         = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-sbx-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Network/virtualNetworks/br-az-ics-fcs-sbx-uksouth-vnet-01/subnets/br-az-ics-fcs-sbx-uksouth-vnet-01-private-snet-03"
 
-as_app_settings = {
-  APPINSIGHTS_INSTRUMENTATIONKEY = "3f5e29ff-9e74-4353-82ee-ff531f981f2"
+as_connection_string_name             = "ClientConfiguration"
+as_connection_string_type             = "SQLServer"
+#as_connection_string_value            = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.vault.azure.net/secrets/ConnectionStrings-DataUser/7199bcfd08be4c)"
+/*as_app_settings = {
+  "APPINSIGHTS_INSTRUMENTATIONKEY"                                              = "3f5e29ff-9e74-4353-82ee-ff531f981f2"
+  "APPINSIGHTS_PROFILERFEATURE_VERSION"                                         = "1.0.0"
+  "APPINSIGHTS_SNAPSHOTFEATURE_VERSION"                                         = "1.0.0"
+  "ApplicationInsightsAgent_EXTENSION_VERSION"                                  = "~2"
+  "ASPNETCORE_ENVIRONMENT"                                                      = "Development"
+  "DiagnosticServices_EXTENSION_VERSION"                                        = "~3"
+  "DisableCache"                                                                = "TRUE"
+  "Initial__UseDeveloperExceptionPage"                                          = "FALSE"
+  "InstrumentationEngine_EXTENSION_VERSION"                                     = "disabled"
+  "IsAuditEnabled"                                                              = "TRUE"
+  "MessageServiceBusConfiguration__AuditLogTopic"                               = "audit"
+  "OIDC__Auth__Authority"                                                       = "https://dev-identity-wa01.azurewebsites.net/connect/authorize"
+  "SnapshotDebugger_EXTENSION_VERSION"                                          = "disabled"
+  "WEBSITE_DAAS_STORAGE_SASURI"                                                 = "https://devmappingsa01.blob.core.windows.net/memorydumps?sv=2015-04-05&ss=bqt&srt=co&sp=rwdl&st=2021-05-25T10%3A03%3A45.4640000Z&se=2031-05-25T10%3A03%3A45.4630000Z&spr=http,https&sig=RUZF3vDuyGH1b%2BiePRp7EbqCAt3zAPvk2zWtY4%2BzS%2FE%3D"
+  "WEBSITE_RUN_FROM_PACKAGE"                                                    = "1"
+  "XDT_MicrosoftApplicationInsights_BaseExtensions"                             = "disabled"
+  "XDT_MicrosoftApplicationInsights_Mode"                                       = "recommended"
+  "WEBSITE_HEALTHCHECK_MAXPINGFAILURES"                                         = "10"
+  "InstrumentationKey"                                                          = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.vault.azure.net/secrets/AppSettings-InstrumentationKey/"
+  "MessageServiceBusConfiguration__MessageTopicConnectionStrings__Connection1"  = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.vault.azure.net/secrets/ConnectionStrings-AzureServiceBus/)"
+  "OIDC__Auth__ClientId"                                                        = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.vault.azure.net/secrets/OIDC-Auth-ClientId/)"
+  "OIDC__Auth__ClientSecret"                                                    = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.vault.azure.net/secrets/OAuth-OIDC-ClientSecret/)"
+  "RedisConnectionStrings__0"                                                   = "@Microsoft.KeyVault(SecretUri=https://${module.key_vault.key_vault_name}.azure.net/secrets/ConnectionStrings-Redis/)"
 }
-
-# Diagnostic settings
-
-diag_eventhub_name                           = "cjptest-eh01"
-diag_eventhub_authorization_rule_id          = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/storage/providers/Microsoft.EventHub/namespaces/cjptest-eh01/authorizationRules/RootManageSharedAccessKey"
-diag_storage_account_id                      = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Storage/storageAccounts/cjptest02"
-diag_app_service_console_logs_enabled        = "true"
-diag_app_service_console_logs_retention      = "365"
-diag_app_service_http_logs_enabled           = "true"
-diag_app_service_http_logs_retention         = "365"
-diag_app_service_audit_logs_enabled          = "true"
-diag_app_service_audit_logs_retention        = "365"
-diag_app_service_file_audit_logs_enabled     = "false"
-diag_app_service_file_audit_logs_retention   = "365"
-diag_app_service_app_logs_enabled            = "true"
-diag_app_service_app_logs_retention          = "365"
-diag_app_service_ipsec_audit_logs_enabled    = "true"
-diag_app_service_ipsec_audit_logs_retention  = "365"
-diag_app_service_platform_logs_enabled       = "true"
-diag_app_service_platform_logs_retention     = "365"
-diag_app_service_avscan_audit_logs_enabled   = "false"
-diag_app_service_avscan_audit_logs_retention = "365"
-
-# Key Vault
-
-kv_enable_rbac_authorization        = "false"
-kv_enabled_for_deployment           = "false"
-kv_enabled_for_disk_encryption      = "false"
-kv_enabled_for_template_deployment  = "false"
-kv_purge_protection_enabled         = "false"
-kv_soft_delete_retention_days       = "90"
-kv_sku_name                         = "standard"
-
-kv_bypass                           = "AzureServices"
-kv_default_action                   = "Deny"
-kv_ip_rules                         = "212.36.174.180/32"
-kv_virtual_network_subnet_ids       = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3"
-
-# Key Vault Access Policy
-kv_object_id = "9ea63675-1896-4d80-be7a-312bb3314682"
-kv_key_permissions = [
-  "Get",
-  "List",
-  "Update",
-]
-kv_secret_permissions = [
-  "Get",
-  "List",
-]
-kv_certificate_permissions = [
-  "Get",
-]
-kv_object_id_2 = "d2ae3367-7f7d-42ce-a386-da8336b5e6ee"
-
+*/
 # DNS Private Zone
 
 dns_privatezone_name = "privatelink.azurewebsites.net"
 
 # DNS Private Zone VNet Link
 
-dnslink_vnet_id = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1"
+dnslink_vnet_id = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-sbx-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Network/virtualNetworks/br-az-ics-fcs-sbx-uksouth-vnet-01"
 
 # Private Link Endpoint
 
 ple_subresource_names               = ["sites"]
 ple_is_manual_connection            = "false"
 ple_private_dns_zone_group          = "privatednszonegroup"
-ple_vnet_private_endpoint_subnet_id = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3"
+ple_vnet_private_endpoint_subnet_id = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-sbx-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Network/virtualNetworks/br-az-ics-fcs-sbx-uksouth-vnet-01/subnets/br-az-ics-fcs-sbx-uksouth-vnet-01-private-snet-02"
+
+# Key Vault
+
+kv_enable_rbac_authorization       = "false"
+kv_enabled_for_deployment          = "false"
+kv_enabled_for_disk_encryption     = "false"
+kv_enabled_for_template_deployment = "false"
+kv_purge_protection_enabled        = "false"
+kv_soft_delete_retention_days      = "90"
+kv_sku_name                        = "standard"
+
+kv_bypass                           = "AzureServices"
+kv_default_action                   = "Deny"
+kv_ip_rules                         = ["212.36.174.180/32", "165.225.220.152"]
+kv_virtual_network_subnet_ids       = ["/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-sbx-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Network/virtualNetworks/br-az-ics-fcs-sbx-uksouth-vnet-01/subnets/br-az-ics-fcs-sbx-uksouth-vnet-01-private-snet-03"]
+
+# Key Vault Access Policy
+
+kv_key_permissions = [
+]
+kv_secret_permissions = [
+  "Get",
+]
+kv_certificate_permissions = [
+]
+
+kv2_key_permissions = [
+]
+kv2_secret_permissions = [
+  "Get", "List", "Set", "Delete"
+]
+kv2_certificate_permissions = [
+]
+
+# Key Vault  secrets
+
+kvs_content_type     = null
+kvs_not_before_date  = null
+kvs_expiration_date  = null
 
 # Servicebus Namespace
 
@@ -144,13 +127,13 @@ sbq_max_message_size_in_kilobytes           = 1024
 sbq_max_size_in_megabytes                   = 1024
 sbq_requires_duplicate_detection            = "false"
 sbq_requires_session                        = "false"
-sbq_default_message_ttl                     = null #"P10675199DT2H48M5.4S"
+sbq_default_message_ttl                     = null
 sbq_dead_lettering_on_message_expiration    = "false"
 sbq_duplicate_detection_history_time_window = "PT10M"
 sbq_max_delivery_count                      = 10
 sbq_status                                  = "Active"
 sbq_enable_batched_operations               = "true"
-sbq_auto_delete_on_idle                     = null #"P10675199DT2H48M5.4S"
+sbq_auto_delete_on_idle                     = null
 sbq_enable_partitioning                     = "false"
 
 # Servicebus topic
@@ -218,19 +201,24 @@ rc_maintenance_window              = null
 # SQL Server
 
 ss_sql_version                          = "12.0"
-ss_administrator_login                  = "azuresqladmin"
-ss_administrator_login_password         = "testpassword123$"
+ss_administrator_login                  = "ClientConfigUser"
+#ss_administrator_login_password         = data.azurerm_key_vault_secret.clientConfigSql.value
 ss_connection_policy                    = null
 ss_minimum_tls_version                  = null
 ss_public_network_access_enabled        = null
 ss_outbound_network_restriction_enabled = null
 ss_primary_user_assigned_identity_id    = null
-ss_login_username                       = "carljonpope"
-ss_object_id                            = "9ea63675-1896-4d80-be7a-312bb3314682"
+ss_login_username                       = "carl.pope@broadridge.com"
+ss_object_id                            = "91ff804b-8b34-4e19-808d-caa4badfc3d6"
 ss_tenant_id                            = null
-ss_azuread_authentication_only          = null
+ss_azuread_authentication_only          = false
 ss_type                                 = "SystemAssigned"
 ss_identity_ids                         = null
+
+# SQL Server VNet Rule
+
+ss_subnet_id                            = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-sbx-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Network/virtualNetworks/br-az-ics-fcs-sbx-uksouth-vnet-01/subnets/br-az-ics-fcs-sbx-uksouth-vnet-01-private-snet-03"
+ss_ignore_missing_vnet_service_endpoint = false
 
 # SQL Database
 
@@ -276,13 +264,13 @@ db_td_storage_endpoint                           = null
 # SQL Auditing
 
 sau_extended_auditing_enabled               = "true"
-sau_storage_endpoint                        = "https://cjptest02.blob.core.windows.net"
+sau_storage_endpoint                        = "https://adityaclinew.blob.core.windows.net"
 sau_storage_account_access_key              = null
-sau_storage_account_access_key_is_secondary = null #"false"
+sau_storage_account_access_key_is_secondary = null
 sau_retention_in_days                       = "365"
 sau_log_monitoring_enabled                  = null
 sau_storage_account_subscription_id         = null
-sau_eventhub_authorization_rule_id          = null
-sau_eventhub_name                           = "test"
-sau_audit_scope                             = null
+sau_eventhub_authorization_rule_id          = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-dev-eh-rg/providers/Microsoft.EventHub/namespaces/br-az-ics-dev-eh-uksouth/authorizationRules/RootManageSharedAccessKey"
+sau_eventhub_name                           = "sendlogstosplunk"
+sau_audit_scope                             = "/subscriptions/c37f4fc5-593e-4791-a6e2-bf5436b0c97d/resourceGroups/br-az-ics-fcs-dev-ntwrk-vnet-uksouth-rg-01/providers/Microsoft.Storage/storageAccounts/adityaclinew" #null
 sau_audit_role_definition_name              = "Storage Blob Data Contributor"
