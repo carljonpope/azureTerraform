@@ -15,10 +15,6 @@ variable "content" {
   description = "The type of content in the resource group, e.g application name, or network resources"
 }
 
-variable "tags" {
-  description = "Tags to be applied to each resource."
-}
-
 # App Service Plan
 
 variable "asp_sku_name" {
@@ -43,10 +39,6 @@ variable "as_https_only" {
   description = "Should the Linux Web App require HTTPS connections."
 }
 
-variable "as_app_settings" {
-  description = "A map of key-value pairs of App Settings."
-}
-
 variable "as_auth_settings_enabled" {
   description = "Should the Authentication / Authorization feature be enabled for the Linux Web App?"
 }
@@ -57,10 +49,6 @@ variable "as_connection_string_name" {
 
 variable "as_connection_string_type" {
   description = "Type of database. Possible values include: MySQL, SQLServer, SQLAzure, Custom, NotificationHub, ServiceBus, EventHub, APIHub, DocDb, RedisCache, and PostgreSQL."
-}
-
-variable "as_connection_string_value" {
-  description = "The connection string value."
 }
 
 variable "as_identity_type" {
@@ -549,10 +537,6 @@ variable "ss_sql_version" {
 
 variable "ss_administrator_login" {
   description = "The administrator login name for the new server. Required unless azuread_authentication_only in the azuread_administrator block is true. When omitted, Azure will generate a default username which cannot be subsequently changed. Changing this forces a new resource to be created."
-}
-
-variable "ss_administrator_login_password" {
-  description = "The password associated with the administrator_login user. Needs to comply with Azure's Password Policy. Required unless azuread_authentication_only in the azuread_administrator block is true."
 }
 
 variable "ss_connection_policy" {

@@ -79,7 +79,7 @@ module "resource_group" {
   location = var.location
   tags     = merge(local.common_tags)
 }
-/*
+
 module "key_vault" {
   source                              = "../modules/keyVault"
   name                                = "${var.content}-${var.env}-kv01"
@@ -122,7 +122,7 @@ module "keyvault_access_policy2" {
   secret_permissions      = var.kv2_secret_permissions
   certificate_permissions = var.kv2_certificate_permissions
 }
-
+/*
 # Secret placeholders - do not enter secrets in code!!
 
 module "key_vault_secret1" {
