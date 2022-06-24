@@ -1,3 +1,12 @@
+locals {
+  common_tags = {
+    "environment"         = "tst"
+    "Deployed By"         = "Azure Cloud Foundation Architecture"
+    "cfa:classification"  = "meh"
+    "Created Date"        = timestamp()
+  }
+}
+
 data "azurerm_client_config" "current" {
 
 }
@@ -6,7 +15,7 @@ module "resource_group" {
   source   = "../modules/resourceGroup"
   name     = "${var.prefix}-${var.env}-${var.content}-${var.location}-rg03"
   location = var.location
-  tags     = var.tags
+  tags     = merge(local.common_tags)
 }
 /*
 module "app_service_plan" {
@@ -88,7 +97,7 @@ module "app_service" {
 }
 
 module "diagnostic_settings" {
-  source                                  = "../modules/diagnosticSettings"
+  source                                  = "../modules/appServicediagnosticSettings"
   name                                    = "${var.prefix}-${var.env}-${var.content}-${var.location}-as01-diag"
   target_resource_id                      = module.app_service.app_service_id
   eventhub_name                           = var.diag_eventhub_name
@@ -127,6 +136,11 @@ module "key_vault" {
   sku_name                            = var.kv_sku_name
   tags                                = var.tags
 
+  bypass                              = var.kv_bypass
+  default_action                      = var.kv_default_action
+  ip_rules                            = var.kv_ip_rules
+  virtual_network_subnet_ids          = var.kv_virtual_network_subnet_ids
+
 }
 
 module "keyvault_access_policy" {
@@ -143,12 +157,12 @@ module "keyvault_access_policy_2" {
   source                  = "../modules/keyVaultAccessPolicy"
   key_vault_id            = module.key_vault.Key_vault_id
   tenant_id               = data.azurerm_client_config.current.tenant_id
-  object_id               = var.kv_object_id_2
+  object_id               = module.app_service.app_service_princiapl_id
   key_permissions         = var.kv_key_permissions
   secret_permissions      = var.kv_secret_permissions
   certificate_permissions = var.kv_certificate_permissions
 }
-
+/*
 module "dns_privatezone" {
   source                  = "../modules/privateDnsZone"
   resource_group_name     = module.resource_group.resource_group_name
@@ -156,7 +170,7 @@ module "dns_privatezone" {
   tags                    = var.tags
 }
 
-module "pl_endpoint" {
+module "privatelink_endpoint" {
   source                          = "../modules/privateLinkEndpoint"
   name                            = "${var.prefix}-${var.env}-${var.content}-${var.location}-ple01"
   location                        = var.location
@@ -288,8 +302,22 @@ module "redis_cache" {
   maintenance_window                        = var.rc_maintenance_window
 }
 
-*/
 
+
+
+data "azurerm_key_vault" "cjptest-kv03" {
+  name                = "cjptest-kv03"
+  resource_group_name = "storage"
+}
+
+data "azurerm_key_vault_secret" "secret1" {
+  name         = "sqladminun"
+  key_vault_id = data.azurerm_key_vault.cjptest-kv03.id
+}
+data "azurerm_key_vault_secret" "secret2" {
+  name         = "sqladminpw1"
+  key_vault_id = data.azurerm_key_vault.cjptest-kv03.id
+}
 module "mssqlserver" {
   source                               = "../modules/azureSqlServer"
   name                                 = lower("${var.prefix}-${var.env}-${var.content}-${var.location}-sqls02")
@@ -297,8 +325,8 @@ module "mssqlserver" {
   location                             = var.location
   tags                                 = var.tags
   sql_version                          = var.ss_sql_version
-  administrator_login                  = var.ss_administrator_login
-  administrator_login_password         = var.ss_administrator_login_password
+  administrator_login                  = data.azurerm_key_vault_secret.secret1.value #var.ss_administrator_login
+  administrator_login_password         = data.azurerm_key_vault_secret.secret2.value #var.ss_administrator_login_password
   connection_policy                    = var.ss_connection_policy
   minimum_tls_version                  = var.ss_minimum_tls_version
   public_network_access_enabled        = var.ss_public_network_access_enabled
@@ -311,7 +339,7 @@ module "mssqlserver" {
   type                                 = var.ss_type
   identity_ids                         = var.ss_identity_ids
 }
-
+/*
 module "mssqldatabase" {
   source                                        = "../modules/azureSqlDatabase"
   name                                          = "${var.prefix}-${var.env}-${var.content}-${var.location}-sqldb01"
@@ -380,3 +408,4 @@ module "sql_auditing" {
     module.mssqldatabase
   ]
 }
+*/

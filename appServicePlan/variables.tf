@@ -18,10 +18,10 @@ variable "env" {
   description = "The environment in which the resource will be deployed"
 }
 
-
+/*
 variable "tags" {
   description = "Tags to be applied to each resource."
-}
+}*/
 
 # Autoscale setting
 variable "content" {
@@ -336,6 +336,22 @@ variable "kv_soft_delete_retention_days" {
   description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
 }
 
+variable "kv_bypass" {
+  description = "Specifies which traffic can bypass the network rules. Possible values are AzureServices and None."
+}
+
+variable "kv_default_action" {
+  description = "The Default Action to use when no rules match from ip_rules / virtual_network_subnet_ids. Possible values are Allow and Deny."
+}
+
+variable "kv_ip_rules" {
+  description = "One or more IP Addresses, or CIDR Blocks which should be able to access the Key Vault."
+}
+
+variable "kv_virtual_network_subnet_ids" {
+  description = "One or more Subnet IDs which should be able to access this Key Vault."
+}
+
 
 # Key Vault Access Policy
 variable "kv_object_id" {
@@ -353,11 +369,11 @@ variable "kv_secret_permissions" {
 variable "kv_certificate_permissions" {
   description = "List of certificate permissions, must be one or more from the following: Backup, Create, Delete, DeleteIssuers, Get, GetIssuers, Import, List, ListIssuers, ManageContacts, ManageIssuers, Purge, Recover, Restore, SetIssuers and Update."
 }
-
+/*
 variable "kv_object_id_2" {
   description = "The object ID of a user, service principal or security group in the Azure Active Directory tenant for the vault. The object ID must be unique for the list of access policies. Changing this forces a new resource to be created."
 }
-
+*/
 # DNS Private Zone
 
 variable "dns_privatezone_name" {

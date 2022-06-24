@@ -1,10 +1,13 @@
 location     = "swedencentral"
 asp_sku_name = "B1"
 content      = "clientConfig"
-tags = {
-  environment = "dev"
+/*tags = {
+  environment         = "dev"
+  "Deployed By"         = "Azure Cloud Foundation Architecture"
+  "cfa:classification"  = "npd"
+  "Created Date"        = local.createdDate
 }
-
+*/
 # Autoscale setting
 
 capacity_default = "1"
@@ -81,13 +84,18 @@ diag_app_service_avscan_audit_logs_retention = "365"
 
 # Key Vault
 
-kv_enable_rbac_authorization       = "false"
-kv_enabled_for_deployment          = "false"
-kv_enabled_for_disk_encryption     = "false"
-kv_enabled_for_template_deployment = "false"
-kv_purge_protection_enabled        = "false"
-kv_soft_delete_retention_days      = "90"
-kv_sku_name                        = "standard"
+kv_enable_rbac_authorization        = "false"
+kv_enabled_for_deployment           = "false"
+kv_enabled_for_disk_encryption      = "false"
+kv_enabled_for_template_deployment  = "false"
+kv_purge_protection_enabled         = "false"
+kv_soft_delete_retention_days       = "90"
+kv_sku_name                         = "standard"
+
+kv_bypass                           = "AzureServices"
+kv_default_action                   = "Deny"
+kv_ip_rules                         = "212.36.174.180/32"
+kv_virtual_network_subnet_ids       = "/subscriptions/dce8bc99-578d-48b8-be33-71b0c3a22d3a/resourceGroups/networking/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet3"
 
 # Key Vault Access Policy
 kv_object_id = "9ea63675-1896-4d80-be7a-312bb3314682"

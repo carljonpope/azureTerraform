@@ -45,3 +45,19 @@ variable "tenant_id" {
 variable "soft_delete_retention_days" {
   description = "The number of days that items should be retained for once soft-deleted. This value can be between 7 and 90 (the default) days."
 }
+
+variable "bypass" {
+  description = "Specifies which traffic can bypass the network rules. Possible values are AzureServices and None."
+}
+
+variable "default_action" {
+  description = "The Default Action to use when no rules match from ip_rules / virtual_network_subnet_ids. Possible values are Allow and Deny."
+}
+
+variable "ip_rules" {
+  description = "One or more IP Addresses, or CIDR Blocks which should be able to access the Key Vault."
+}
+
+variable "virtual_network_subnet_ids" {
+  description = "One or more Subnet IDs which should be able to access this Key Vault."
+}

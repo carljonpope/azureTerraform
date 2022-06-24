@@ -11,4 +11,12 @@ resource "azurerm_key_vault" "key_vault" {
   purge_protection_enabled        = var.purge_protection_enabled
   sku_name                        = var.sku_name
   tags                            = var.tags
+
+  network_acls {
+    bypass                      = var.bypass
+    default_action              = var.default_action
+    ip_rules                    = var.ip_rules
+    virtual_network_subnet_ids  = var.virtual_network_subnet_ids
+  }
+
 }
