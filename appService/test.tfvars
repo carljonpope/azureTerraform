@@ -1,5 +1,0 @@
-appServicePlanName     = "cjptest-asp01"
-appServicePlanlocation = "uksouth"
-appServiceName         = "cjptest-as01"
-appServiceLocation     = "uksouth"
-appServiceName2        = "cjptest-as02"
