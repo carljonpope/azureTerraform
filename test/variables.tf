@@ -1,12 +1,18 @@
-variable "prefix" {
-  default     = "br-az-ics-fcs"
-  description = "Resource name prefix."
-}
-
 variable "location" {
   description = "The Azure region in which resources should be deployed."
+  default = "uksouth"
 }
 
-variable "env" {
-  description = "The environment in which the resource will be deployed"
+variable "number_of_rg" {
+  default = 2
+}
+
+variable "tags" {
+  default = {
+    test = "test1"
+  }
+}
+
+variable "name" {
+  default = "rg0"
 }

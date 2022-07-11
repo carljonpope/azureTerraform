@@ -1,10 +1,6 @@
-module "client_config" {
-  source    = "../modules/applications/clientConfig"
-  name01    = "${var.prefix}-${var.env}-rg01"
-  name02    = "${var.prefix}-${var.env}-rg02"
+resource "azurerm_resource_group" "resource_group" {
+  count     = var.number_of_rg
+  name      = "rg${count.index+1}"
   location  = var.location
-  tags      = {
-    test1   = "test1"
-    test2   = "test2"
-  }
+  tags      = var.tags
 }

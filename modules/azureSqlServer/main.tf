@@ -30,3 +30,11 @@ resource "azurerm_mssql_server" "mssql_server" {
     identity_ids = var.identity_ids
   }
 }
+
+resource "azurerm_mssql_virtual_network_rule" "mssql_virtual_network_rule" {
+  count                                 = var.network_rule_count
+  name                                  = "vnetRule${count.index}"
+  server_id                             = var.server_id
+  subnet_id                             = var.subnet_id[count.index]
+  ignore_missing_vnet_service_endpoint  = var.ignore_missing_vnet_service_endpoint
+}
